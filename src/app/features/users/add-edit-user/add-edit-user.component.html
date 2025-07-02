@@ -159,12 +159,11 @@
     >
       Cancel
     </button>
-    <button
+   <button
   mat-raised-button
   [color]="isAddMode ? 'primary' : 'accent'"
   type="submit"
   (click)="onSubmit()"
-  [disabled]="userForm.invalid"
 >
   <mat-icon>{{ isAddMode ? 'add' : 'save' }}</mat-icon>
   <span>{{ isAddMode ? 'Create User' : 'Update User' }}</span>
