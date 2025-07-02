@@ -160,23 +160,13 @@
       Cancel
     </button>
     <button
-      mat-raised-button
-      [color]="isAddMode ? 'primary' : 'accent'"
-      type="submit"
-      (click)="onSubmit()"
-      [disabled]="userForm.invalid || isLoading"
-    >
-      @if (isLoading) {
-      <ng-container>
-        <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
-        <span>{{ isAddMode ? 'Creating...' : 'Updating...' }}</span>
-      </ng-container>
-      } @else {
-      <ng-container>
-        <mat-icon>{{ isAddMode ? 'add' : 'save' }}</mat-icon>
-        <span>{{ isAddMode ? 'Create User' : 'Update User' }}</span>
-      </ng-container>
-      }
-    </button>
+  mat-raised-button
+  [color]="isAddMode ? 'primary' : 'accent'"
+  type="submit"
+  (click)="onSubmit()"
+>
+  <mat-icon>{{ isAddMode ? 'add' : 'save' }}</mat-icon>
+  <span>{{ isAddMode ? 'Create User' : 'Update User' }}</span>
+</button>
   </mat-dialog-actions>
 </div>
