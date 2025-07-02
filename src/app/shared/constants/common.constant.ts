@@ -1,0 +1,7 @@
+export const COMMON_CONST = {
+  EMAIL_MAX_LIMIT: 100,
+  ONE: 1,
+  THREE_SECOND_DELAY: 3000,
+  ZERO: 0,
+  GRAPHQL_PATH: 'graphql',
+};
