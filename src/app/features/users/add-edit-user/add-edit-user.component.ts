@@ -6,6 +6,19 @@ import { User } from '../user.model';
 import { UserService } from '../user.service';
 import { AddEditUserDialogData, RoleOption, FormFieldConfig, UserRole, AddEditUserFormData } from './add-edit-user.model';
 import { SharedModule } from 'src/app/shared/modules/shared.module';
+import {
+  ADD_EDIT_USER_DIALOG_CONFIG,
+  ADD_EDIT_USER_TITLES,
+  FORM_FIELD_CONFIGS,
+  FORM_VALIDATION,
+  ROLE_OPTIONS,
+  ROLE_HIERARCHY,
+  FORM_BUTTON_CONFIG,
+  AUTOCOMPLETE_VALUES,
+  NAME_VALIDATION_PATTERN,
+  CONSECUTIVE_SPECIAL_CHARS_PATTERN,
+  DIALOG_RESPONSE_DELAY
+} from '../user.constant';
 
 @Component({
   selector: 'app-add-edit-user',
@@ -22,24 +35,46 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   userForm!: FormGroup;
   isLoading = false;
   isAddMode = this.data.mode === 'add';
-  dialogTitle = this.isAddMode ? 'Add New User' : 'Edit User';
+  dialogTitle = this.isAddMode ? ADD_EDIT_USER_TITLES.ADD_MODE : ADD_EDIT_USER_TITLES.EDIT_MODE;
 
   availableRoles: RoleOption[] = [];
   private destroy$ = new Subject<void>();
 
   fieldConfigs: Record<string, FormFieldConfig> = {
-    email: { label: 'Email Address', placeholder: 'Enter email address', maxLength: 254, required: true, type: 'email' },
-    firstName: { label: 'First Name', placeholder: 'Enter first name', maxLength: 100, required: true, type: 'text' },
-    lastName: { label: 'Last Name', placeholder: 'Enter last name', maxLength: 100, required: true, type: 'text' },
-    role: { label: 'User Role', placeholder: 'Select a role', required: true, type: 'select' }
+    email: {
+      label: FORM_FIELD_CONFIGS.EMAIL.LABEL,
+      placeholder: FORM_FIELD_CONFIGS.EMAIL.PLACEHOLDER,
+      maxLength: FORM_FIELD_CONFIGS.EMAIL.MAX_LENGTH,
+      required: FORM_FIELD_CONFIGS.EMAIL.REQUIRED,
+      type: FORM_FIELD_CONFIGS.EMAIL.TYPE
+    },
+    firstName: {
+      label: FORM_FIELD_CONFIGS.FIRST_NAME.LABEL,
+      placeholder: FORM_FIELD_CONFIGS.FIRST_NAME.PLACEHOLDER,
+      maxLength: FORM_FIELD_CONFIGS.FIRST_NAME.MAX_LENGTH,
+      required: FORM_FIELD_CONFIGS.FIRST_NAME.REQUIRED,
+      type: FORM_FIELD_CONFIGS.FIRST_NAME.TYPE
+    },
+    lastName: {
+      label: FORM_FIELD_CONFIGS.LAST_NAME.LABEL,
+      placeholder: FORM_FIELD_CONFIGS.LAST_NAME.PLACEHOLDER,
+      maxLength: FORM_FIELD_CONFIGS.LAST_NAME.MAX_LENGTH,
+      required: FORM_FIELD_CONFIGS.LAST_NAME.REQUIRED,
+      type: FORM_FIELD_CONFIGS.LAST_NAME.TYPE
+    },
+    role: {
+      label: FORM_FIELD_CONFIGS.ROLE.LABEL,
+      placeholder: FORM_FIELD_CONFIGS.ROLE.PLACEHOLDER,
+      required: FORM_FIELD_CONFIGS.ROLE.REQUIRED,
+      type: FORM_FIELD_CONFIGS.ROLE.TYPE
+    }
   };
 
   private roleHierarchy: Record<UserRole, UserRole[]> = {
-    [UserRole.ADMIN]: [UserRole.ADMIN, UserRole.MANAGER, UserRole.USER],
-    [UserRole.MANAGER]: [UserRole.MANAGER, UserRole.USER],
-    [UserRole.USER]: [UserRole.USER]
+    [UserRole.ADMIN]: ROLE_HIERARCHY.Admin as UserRole[],
+    [UserRole.MANAGER]: ROLE_HIERARCHY.Manager as UserRole[],
+    [UserRole.USER]: ROLE_HIERARCHY.User as UserRole[]
   };
-
 
   ngOnInit(): void {
     this.initForm();
@@ -55,9 +90,23 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
   initForm(): void {
     this.userForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(254)]],
-      firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100), this.nameValidator]],
-      lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100), this.nameValidator]],
+      email: ['', [
+        Validators.required,
+        Validators.email,
+        Validators.maxLength(FORM_VALIDATION.MAX_EMAIL_LENGTH)
+      ]],
+      firstName: ['', [
+        Validators.required,
+        Validators.minLength(FORM_VALIDATION.MIN_NAME_LENGTH),
+        Validators.maxLength(FORM_VALIDATION.MAX_NAME_LENGTH),
+        this.nameValidator
+      ]],
+      lastName: ['', [
+        Validators.required,
+        Validators.minLength(FORM_VALIDATION.MIN_NAME_LENGTH),
+        Validators.maxLength(FORM_VALIDATION.MAX_NAME_LENGTH),
+        this.nameValidator
+      ]],
       role: ['', [Validators.required]]
     });
   }
@@ -66,19 +115,42 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     const currentRole = this.data.currentUserRole;
     const allowed = this.roleHierarchy[currentRole] || [UserRole.USER];
     const allRoles: RoleOption[] = [
-      { value: UserRole.ADMIN, label: 'Administrator', description: 'Full system access', disabled: !allowed.includes(UserRole.ADMIN) },
-      { value: UserRole.MANAGER, label: 'Manager', description: 'Manage users', disabled: !allowed.includes(UserRole.MANAGER) },
-      { value: UserRole.USER, label: 'User', description: 'Basic access', disabled: !allowed.includes(UserRole.USER) }
+      {
+        value: UserRole.ADMIN,
+        label: ROLE_OPTIONS.ADMIN.LABEL,
+        description: ROLE_OPTIONS.ADMIN.DESCRIPTION,
+        disabled: !allowed.includes(UserRole.ADMIN)
+      },
+      {
+        value: UserRole.MANAGER,
+        label: ROLE_OPTIONS.MANAGER.LABEL,
+        description: ROLE_OPTIONS.MANAGER.DESCRIPTION,
+        disabled: !allowed.includes(UserRole.MANAGER)
+      },
+      {
+        value: UserRole.USER,
+        label: ROLE_OPTIONS.USER.LABEL,
+        description: ROLE_OPTIONS.USER.DESCRIPTION,
+        disabled: !allowed.includes(UserRole.USER)
+      }
     ];
     this.availableRoles = allRoles.filter(role => allowed.includes(role.value));
   }
 
   setupLiveValidation(): void {
-    this.userForm.valueChanges.pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged()).subscribe(() => {
+    this.userForm.valueChanges.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(FORM_VALIDATION.DEBOUNCE_TIME),
+      distinctUntilChanged()
+    ).subscribe(() => {
       Object.keys(this.userForm.controls).forEach(field => this.userForm.get(field)?.markAsTouched());
     });
 
-    this.userForm.get('email')?.valueChanges.pipe(takeUntil(this.destroy$), debounceTime(500), distinctUntilChanged()).subscribe(email => {
+    this.userForm.get('email')?.valueChanges.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(FORM_VALIDATION.EMAIL_CHECK_DEBOUNCE),
+      distinctUntilChanged()
+    ).subscribe(email => {
       if (email && this.userForm.get('email')?.valid) this.checkEmailUniqueness(email);
     });
   }
@@ -112,19 +184,39 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   nameValidator(control: AbstractControl): { [key: string]: any } | null {
     const value = control.value;
     if (!value) return null;
-    const pattern = /^[a-zA-Z\s\-']+$/;
-    if (!pattern.test(value) || /[\s\-']{2,}/.test(value) || value.trim().length === 0) {
+    
+    if (!NAME_VALIDATION_PATTERN.test(value) || 
+        CONSECUTIVE_SPECIAL_CHARS_PATTERN.test(value) || 
+        value.trim().length === 0) {
       return { pattern: true };
     }
     return null;
   }
 
   getAutocomplete(field: string): string {
-    return field === 'email' ? 'email' : field === 'firstName' ? 'given-name' : 'family-name';
+    switch (field) {
+      case 'email':
+        return AUTOCOMPLETE_VALUES.EMAIL;
+      case 'firstName':
+        return AUTOCOMPLETE_VALUES.FIRST_NAME;
+      case 'lastName':
+        return AUTOCOMPLETE_VALUES.LAST_NAME;
+      default:
+        return '';
+    }
   }
 
   getRoleIcon(role: UserRole): string {
-    return role === UserRole.ADMIN ? 'admin_panel_settings' : role === UserRole.MANAGER ? 'supervisor_account' : 'person';
+    switch (role) {
+      case UserRole.ADMIN:
+        return ROLE_OPTIONS.ADMIN.ICON;
+      case UserRole.MANAGER:
+        return ROLE_OPTIONS.MANAGER.ICON;
+      case UserRole.USER:
+        return ROLE_OPTIONS.USER.ICON;
+      default:
+        return ROLE_OPTIONS.USER.ICON;
+    }
   }
 
   getRoleIconClass(role: UserRole): string {
@@ -138,13 +230,13 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   getRolePermissionDescription(role: UserRole): string {
     switch (role) {
       case UserRole.ADMIN:
-        return 'Can manage all users and settings.';
+        return ROLE_OPTIONS.ADMIN.PERMISSION_DESCRIPTION;
       case UserRole.MANAGER:
-        return 'Can manage users and view reports.';
+        return ROLE_OPTIONS.MANAGER.PERMISSION_DESCRIPTION;
       case UserRole.USER:
-        return 'Standard user permissions.';
+        return ROLE_OPTIONS.USER.PERMISSION_DESCRIPTION;
       default:
-        return 'Standard user permissions apply.';
+        return ROLE_OPTIONS.USER.PERMISSION_DESCRIPTION;
     }
   }
 
@@ -165,7 +257,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         };
         this.dialogRef.close({ success: true, user: result, mode: this.data.mode });
         this.isLoading = false;
-      }, 1500);
+      }, DIALOG_RESPONSE_DELAY);
     } else {
       Object.values(this.userForm.controls).forEach(control => control.markAsTouched());
     }
@@ -175,4 +267,3 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     this.dialogRef.close({ success: false, cancelled: true });
   }
 }
-

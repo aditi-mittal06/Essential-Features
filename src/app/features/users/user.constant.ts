@@ -22,6 +22,7 @@ export const SNACKBAR_CONFIG = {
   SUCCESS_CLASS: 'success-snackbar',
   ERROR_CLASS: 'error-snackbar'
 }
+
 // ===== DIALOG CONFIGURATION =====
 export const USER_DIALOG_CONFIG = {
   WIDTH: '600px',
@@ -30,6 +31,128 @@ export const USER_DIALOG_CONFIG = {
   CONFIRM_DIALOG_WIDTH: '400px',
   DELETE_DIALOG_WIDTH: '450px'
 }
+
+// ===== ADD/EDIT USER DIALOG CONFIGURATION =====
+export const ADD_EDIT_USER_DIALOG_CONFIG = {
+  MIN_WIDTH: '500px',
+  MAX_WIDTH: '600px',
+  MOBILE_MIN_WIDTH: '320px',
+  MOBILE_MAX_WIDTH: '95vw'
+} as const;
+
+// ===== ADD/EDIT USER DIALOG TITLES =====
+export const ADD_EDIT_USER_TITLES = {
+  ADD_MODE: 'Add New User',
+  EDIT_MODE: 'Edit User'
+} as const;
+
+// ===== FORM FIELD CONFIGURATIONS =====
+export const FORM_FIELD_CONFIGS = {
+  EMAIL: {
+    LABEL: 'Email Address',
+    PLACEHOLDER: 'Enter email address',
+    MAX_LENGTH: 254,
+    REQUIRED: true,
+    TYPE: 'email'
+  },
+  FIRST_NAME: {
+    LABEL: 'First Name',
+    PLACEHOLDER: 'Enter first name',
+    MAX_LENGTH: 100,
+    REQUIRED: true,
+    TYPE: 'text'
+  },
+  LAST_NAME: {
+    LABEL: 'Last Name',
+    PLACEHOLDER: 'Enter last name',
+    MAX_LENGTH: 100,
+    REQUIRED: true,
+    TYPE: 'text'
+  },
+  ROLE: {
+    LABEL: 'User Role',
+    PLACEHOLDER: 'Select a role',
+    REQUIRED: true,
+    TYPE: 'select'
+  }
+} as const;
+
+// ===== FORM VALIDATION CONSTANTS =====
+export const FORM_VALIDATION = {
+  MIN_NAME_LENGTH: 2,
+  MAX_EMAIL_LENGTH: 254,
+  MAX_NAME_LENGTH: 100,
+  DEBOUNCE_TIME: 300,
+  EMAIL_CHECK_DEBOUNCE: 500
+} as const;
+
+// ===== ROLE CONFIGURATION =====
+export const ROLE_OPTIONS = {
+  ADMIN: {
+    VALUE: 'Admin',
+    LABEL: 'Administrator',
+    DESCRIPTION: 'Full system access',
+    ICON: 'admin_panel_settings',
+    PERMISSION_DESCRIPTION: 'Can manage all users and settings.'
+  },
+  MANAGER: {
+    VALUE: 'Manager',
+    LABEL: 'Manager',
+    DESCRIPTION: 'Manage users',
+    ICON: 'supervisor_account',
+    PERMISSION_DESCRIPTION: 'Can manage users and view reports.'
+  },
+  USER: {
+    VALUE: 'User',
+    LABEL: 'User',
+    DESCRIPTION: 'Basic access',
+    ICON: 'person',
+    PERMISSION_DESCRIPTION: 'Standard user permissions.'
+  }
+} as const;
+
+// ===== ROLE HIERARCHY CONFIGURATION =====
+export const ROLE_HIERARCHY = {
+  Admin: ['Admin', 'Manager', 'User'],
+  Manager: ['Manager', 'User'],
+  User: ['User']
+} as const;
+
+// ===== FORM BUTTON CONFIGURATION =====
+export const FORM_BUTTON_CONFIG = {
+  MIN_WIDTH: '120px',
+  HEIGHT: '44px',
+  SPINNER_DIAMETER: 20,
+  LOADING_TEXTS: {
+    CREATING: 'Creating...',
+    UPDATING: 'Updating...'
+  },
+  ACTION_TEXTS: {
+    CREATE: 'Create User',
+    UPDATE: 'Update User',
+    CANCEL: 'Cancel'
+  },
+  ICONS: {
+    ADD: 'add',
+    SAVE: 'save',
+    PERSON_ADD: 'person_add',
+    EDIT: 'edit'
+  }
+} as const;
+
+// ===== AUTOCOMPLETE CONFIGURATION =====
+export const AUTOCOMPLETE_VALUES = {
+  EMAIL: 'email',
+  FIRST_NAME: 'given-name',
+  LAST_NAME: 'family-name'
+} as const;
+
+// ===== NAME VALIDATION PATTERN =====
+export const NAME_VALIDATION_PATTERN = /^[a-zA-Z\s\-']+$/;
+export const CONSECUTIVE_SPECIAL_CHARS_PATTERN = /[\s\-']{2,}/;
+
+// ===== DIALOG RESPONSE DELAY =====
+export const DIALOG_RESPONSE_DELAY = 1500;
 
 // ===== USER MESSAGES =====
 export const USER_MESSAGES = {
@@ -66,7 +189,6 @@ export const CONFIRMATION_MESSAGES = {
   DELETE_ACTION: 'Delete Permanently',
   CANCEL_ACTION: 'Cancel'
 }
-
 
 // ===== MOCK USER DATA =====
 export const MOCK_USERS = [
@@ -109,10 +231,9 @@ export const USER_SERVICE_CONFIG = {
 
 // ===== TYPE DEFINITIONS =====
 export type UserTableColumn = typeof USER_TABLE_COLUMNS[number];
+
 // ===== VALIDATION CONSTANTS =====
 export const USER_VALIDATION = {
   MIN_ID: 1,
   EMAIL_CASE_COMPARISON: 'toLowerCase'
 } as const;
-
-
