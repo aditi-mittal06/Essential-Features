@@ -53,10 +53,10 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     [UserRole.USER]: [UserRole.USER]
   };
 
-
   ngOnInit(): void {
     this.initForm();
     this.setupAvailableRoles();
+    this.setupLiveValidation();
     if (!this.isAddMode && this.data.user) this.populateForm(this.data.user);
   }
 
@@ -85,6 +85,23 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     this.availableRoles = allRoles.filter(role => allowed.includes(role.value));
   }
 
+  setupLiveValidation(): void {
+    this.userForm.valueChanges.pipe(
+      takeUntil(this.destroy$), 
+      debounceTime(ADD_EDIT_FORM_VALIDATION.DEBOUNCE_TIME_MS), 
+      distinctUntilChanged()
+    ).subscribe(() => {
+      Object.keys(this.userForm.controls).forEach(field => this.userForm.get(field)?.markAsTouched());
+    });
+
+    this.userForm.get('email')?.valueChanges.pipe(
+      takeUntil(this.destroy$), 
+      debounceTime(ADD_EDIT_FORM_VALIDATION.EMAIL_CHECK_DEBOUNCE_MS), 
+      distinctUntilChanged()
+    ).subscribe(email => {
+      if (email && this.userForm.get('email')?.valid) this.checkEmailUniqueness(email);
+    });
+  }
 
   checkEmailUniqueness(email: string): void {
     if (!this.isAddMode && this.data.user?.email === email) return;
@@ -151,32 +168,54 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     }
   }
 
- onSubmit(): void {
-  if (this.userForm.valid) {
-    const form: AddEditUserFormData = {
-      email: this.userForm.value.email.trim(),
-      firstName: this.userForm.value.firstName.trim(),
-      lastName: this.userForm.value.lastName.trim(),
-      role: this.userForm.value.role
-    };
+  onSubmit(): void {
+    if (this.userForm.valid && !this.isLoading) {
+      this.isLoading = true;
+      
+      const formData: AddEditUserFormData = {
+        email: this.userForm.value.email.trim(),
+        firstName: this.userForm.value.firstName.trim(),
+        lastName: this.userForm.value.lastName.trim(),
+        role: this.userForm.value.role
+      };
 
-    const result = {
-      ...form,
-      id: this.isAddMode ? Date.now() : this.data.user!.id,
-      status: this.isAddMode ? true : this.data.user!.status
-    };
+      const serviceCall = this.isAddMode 
+        ? this.userService.addUser(formData)
+        : this.userService.updateUser(this.data.user!.id, formData);
 
-    this.dialogRef.close({
-      success: ADD_EDIT_DIALOG_RESPONSE.SUCCESS,
-      user: result,
-      mode: this.data.mode
-    });
-  } else {
-    Object.values(this.userForm.controls).forEach(control => control.markAsTouched());
+      serviceCall.subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          if (response.success && response.user) {
+            this.dialogRef.close({
+              success: ADD_EDIT_DIALOG_RESPONSE.SUCCESS,
+              user: response.user,
+              mode: this.data.mode
+            });
+          } else {
+            this.dialogRef.close({
+              success: ADD_EDIT_DIALOG_RESPONSE.FAILED,
+              error: response.message || 'Operation failed'
+            });
+          }
+        },
+        error: (error) => {
+          this.isLoading = false;
+          this.dialogRef.close({
+            success: ADD_EDIT_DIALOG_RESPONSE.FAILED,
+            error: error || 'An error occurred'
+          });
+        }
+      });
+    } else {
+      Object.values(this.userForm.controls).forEach(control => control.markAsTouched());
+    }
   }
-}
 
   onCancel(): void {
-    this.dialogRef.close({ success: ADD_EDIT_DIALOG_RESPONSE.FAILED, cancelled: ADD_EDIT_DIALOG_RESPONSE.CANCELLED });
+    this.dialogRef.close({ 
+      success: ADD_EDIT_DIALOG_RESPONSE.FAILED, 
+      cancelled: ADD_EDIT_DIALOG_RESPONSE.CANCELLED 
+    });
   }
 }
