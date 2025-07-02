@@ -94,7 +94,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.setupAvailableRoles();
-    this.setupLiveValidation();
     if (!this.isAddMode && this.data.user) {
       this.populateForm(this.data.user);
     }
@@ -156,27 +155,7 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     this.availableRoles = allRoles.filter(role => allowed.includes(role.value));
   }
 
-  setupLiveValidation(): void {
-    this.userForm.valueChanges.pipe(
-      takeUntil(this.destroy$), 
-      debounceTime(ADD_EDIT_FORM_VALIDATION.DEBOUNCE_TIME_MS), 
-      distinctUntilChanged()
-    ).subscribe(() => {
-      Object.keys(this.userForm.controls).forEach(field => {
-        this.userForm.get(field)?.markAsTouched();
-      });
-    });
-
-    this.userForm.get('email')?.valueChanges.pipe(
-      takeUntil(this.destroy$), 
-      debounceTime(ADD_EDIT_FORM_VALIDATION.EMAIL_CHECK_DEBOUNCE_MS), 
-      distinctUntilChanged()
-    ).subscribe((email: string) => {
-      if (email && this.userForm.get('email')?.valid) {
-        this.checkEmailUniqueness(email);
-      }
-    });
-  }
+  
 
   checkEmailUniqueness(email: string): void {
     if (!this.isAddMode && this.data.user?.email === email) {
