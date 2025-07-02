@@ -6,9 +6,9 @@ import { User } from '../user.model';
 import { UserService } from '../user.service';
 import { AddEditUserDialogData, RoleOption, FormFieldConfig, UserRole, AddEditUserFormData } from './add-edit-user.model';
 import { SharedModule } from 'src/app/shared/modules/shared.module';
+import { FormValidators } from 'src/app/shared/utils/form-validators.util';
 import { 
   ADD_EDIT_FORM_VALIDATION, 
-  ADD_EDIT_DIALOG_RESPONSE_DELAY_MS,
   ADD_EDIT_DIALOG_TITLES,
   ADD_EDIT_USER_MODES,
   ADD_EDIT_ROLE_LABELS,
@@ -19,6 +19,21 @@ import {
   ADD_EDIT_DIALOG_RESPONSE,
   ADD_EDIT_ICON_SUFFIX
 } from '../user.constant';
+
+interface DialogCloseResult {
+  success: boolean;
+  user?: User;
+  mode?: string;
+  error?: string;
+  cancelled?: boolean;
+}
+
+interface UserFormControls {
+  email: AbstractControl;
+  firstName: AbstractControl;
+  lastName: AbstractControl;
+  role: AbstractControl;
+}
 
 @Component({
   selector: 'app-add-edit-user',
@@ -41,10 +56,33 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   fieldConfigs: Record<string, FormFieldConfig> = {
-    email: { label: 'Email Address', placeholder: 'Enter email address', maxLength: ADD_EDIT_FORM_VALIDATION.EMAIL_MAX_LENGTH, required: true, type: 'email' },
-    firstName: { label: 'First Name', placeholder: 'Enter first name', maxLength: ADD_EDIT_FORM_VALIDATION.NAME_MAX_LENGTH, required: true, type: 'text' },
-    lastName: { label: 'Last Name', placeholder: 'Enter last name', maxLength: ADD_EDIT_FORM_VALIDATION.NAME_MAX_LENGTH, required: true, type: 'text' },
-    role: { label: 'User Role', placeholder: 'Select a role', required: true, type: 'select' }
+    email: { 
+      label: 'Email Address', 
+      placeholder: 'Enter email address', 
+      maxLength: ADD_EDIT_FORM_VALIDATION.EMAIL_MAX_LENGTH, 
+      required: true, 
+      type: 'email' 
+    },
+    firstName: { 
+      label: 'First Name', 
+      placeholder: 'Enter first name', 
+      maxLength: ADD_EDIT_FORM_VALIDATION.NAME_MAX_LENGTH, 
+      required: true, 
+      type: 'text' 
+    },
+    lastName: { 
+      label: 'Last Name', 
+      placeholder: 'Enter last name', 
+      maxLength: ADD_EDIT_FORM_VALIDATION.NAME_MAX_LENGTH, 
+      required: true, 
+      type: 'text' 
+    },
+    role: { 
+      label: 'User Role', 
+      placeholder: 'Select a role', 
+      required: true, 
+      type: 'select' 
+    }
   };
 
   private roleHierarchy: Record<UserRole, UserRole[]> = {
@@ -56,7 +94,10 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.setupAvailableRoles();
-    if (!this.isAddMode && this.data.user) this.populateForm(this.data.user);
+    this.setupLiveValidation();
+    if (!this.isAddMode && this.data.user) {
+      this.populateForm(this.data.user);
+    }
   }
 
   ngOnDestroy(): void {
@@ -66,9 +107,23 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
 
   initForm(): void {
     this.userForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(ADD_EDIT_FORM_VALIDATION.EMAIL_MAX_LENGTH)]],
-      firstName: ['', [Validators.required, Validators.minLength(ADD_EDIT_FORM_VALIDATION.NAME_MIN_LENGTH), Validators.maxLength(ADD_EDIT_FORM_VALIDATION.NAME_MAX_LENGTH), this.nameValidator]],
-      lastName: ['', [Validators.required, Validators.minLength(ADD_EDIT_FORM_VALIDATION.NAME_MIN_LENGTH), Validators.maxLength(ADD_EDIT_FORM_VALIDATION.NAME_MAX_LENGTH), this.nameValidator]],
+      email: ['', [
+        Validators.required, 
+        Validators.email, 
+        Validators.maxLength(ADD_EDIT_FORM_VALIDATION.EMAIL_MAX_LENGTH)
+      ]],
+      firstName: ['', [
+        Validators.required, 
+        Validators.minLength(ADD_EDIT_FORM_VALIDATION.NAME_MIN_LENGTH), 
+        Validators.maxLength(ADD_EDIT_FORM_VALIDATION.NAME_MAX_LENGTH), 
+        FormValidators.nameValidator
+      ]],
+      lastName: ['', [
+        Validators.required, 
+        Validators.minLength(ADD_EDIT_FORM_VALIDATION.NAME_MIN_LENGTH), 
+        Validators.maxLength(ADD_EDIT_FORM_VALIDATION.NAME_MAX_LENGTH), 
+        FormValidators.nameValidator
+      ]],
       role: ['', [Validators.required]]
     });
   }
@@ -76,27 +131,73 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   setupAvailableRoles(): void {
     const currentRole = this.data.currentUserRole;
     const allowed = this.roleHierarchy[currentRole] || [UserRole.USER];
+    
     const allRoles: RoleOption[] = [
-      { value: UserRole.ADMIN, label: ADD_EDIT_ROLE_LABELS.ADMINISTRATOR, description: ADD_EDIT_ROLE_DESCRIPTIONS.ADMIN_FULL_ACCESS, disabled: !allowed.includes(UserRole.ADMIN) },
-      { value: UserRole.MANAGER, label: ADD_EDIT_ROLE_LABELS.MANAGER, description: ADD_EDIT_ROLE_DESCRIPTIONS.MANAGER_MANAGE_USERS, disabled: !allowed.includes(UserRole.MANAGER) },
-      { value: UserRole.USER, label: ADD_EDIT_ROLE_LABELS.USER, description: ADD_EDIT_ROLE_DESCRIPTIONS.USER_BASIC_ACCESS, disabled: !allowed.includes(UserRole.USER) }
+      { 
+        value: UserRole.ADMIN, 
+        label: ADD_EDIT_ROLE_LABELS.ADMINISTRATOR, 
+        description: ADD_EDIT_ROLE_DESCRIPTIONS.ADMIN_FULL_ACCESS, 
+        disabled: !allowed.includes(UserRole.ADMIN) 
+      },
+      { 
+        value: UserRole.MANAGER, 
+        label: ADD_EDIT_ROLE_LABELS.MANAGER, 
+        description: ADD_EDIT_ROLE_DESCRIPTIONS.MANAGER_MANAGE_USERS, 
+        disabled: !allowed.includes(UserRole.MANAGER) 
+      },
+      { 
+        value: UserRole.USER, 
+        label: ADD_EDIT_ROLE_LABELS.USER, 
+        description: ADD_EDIT_ROLE_DESCRIPTIONS.USER_BASIC_ACCESS, 
+        disabled: !allowed.includes(UserRole.USER) 
+      }
     ];
+    
     this.availableRoles = allRoles.filter(role => allowed.includes(role.value));
   }
 
- 
+  setupLiveValidation(): void {
+    this.userForm.valueChanges.pipe(
+      takeUntil(this.destroy$), 
+      debounceTime(ADD_EDIT_FORM_VALIDATION.DEBOUNCE_TIME_MS), 
+      distinctUntilChanged()
+    ).subscribe(() => {
+      Object.keys(this.userForm.controls).forEach(field => {
+        this.userForm.get(field)?.markAsTouched();
+      });
+    });
+
+    this.userForm.get('email')?.valueChanges.pipe(
+      takeUntil(this.destroy$), 
+      debounceTime(ADD_EDIT_FORM_VALIDATION.EMAIL_CHECK_DEBOUNCE_MS), 
+      distinctUntilChanged()
+    ).subscribe((email: string) => {
+      if (email && this.userForm.get('email')?.valid) {
+        this.checkEmailUniqueness(email);
+      }
+    });
+  }
 
   checkEmailUniqueness(email: string): void {
-    if (!this.isAddMode && this.data.user?.email === email) return;
+    if (!this.isAddMode && this.data.user?.email === email) {
+      return;
+    }
+    
     this.userService.getUsers(false).subscribe({
       next: res => {
-        const exists = res.users.some(user => user.email.toLowerCase() === email.toLowerCase() && (!this.data.user || user.id !== this.data.user.id));
+        const exists = res.users.some(user => 
+          user.email.toLowerCase() === email.toLowerCase() && 
+          (!this.data.user || user.id !== this.data.user.id)
+        );
+        
         const control = this.userForm.get('email');
         if (control) {
-          if (exists) control.setErrors({ ...control.errors, emailExists: true });
-          else if (control.hasError('emailExists')) {
-            const { emailExists, ...other } = control.errors || {};
-            control.setErrors(Object.keys(other).length ? other : null);
+          if (exists) {
+            const currentErrors = control.errors || {};
+            control.setErrors({ ...currentErrors, emailExists: true });
+          } else if (control.hasError('emailExists')) {
+            const { emailExists, ...otherErrors } = control.errors || {};
+            control.setErrors(Object.keys(otherErrors).length ? otherErrors : null);
           }
         }
       }
@@ -112,22 +213,26 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     });
   }
 
-  nameValidator(control: AbstractControl): { [key: string]: any } | null {
-    const value = control.value;
-    if (!value) return null;
-    const pattern = /^[a-zA-Z\s\-']+$/;
-    if (!pattern.test(value) || /[\s\-']{2,}/.test(value) || value.trim().length === 0) {
-      return { pattern: true };
-    }
-    return null;
-  }
-
   getAutocomplete(field: string): string {
-    return field === 'email' ? ADD_EDIT_AUTOCOMPLETE.EMAIL : field === 'firstName' ? ADD_EDIT_AUTOCOMPLETE.FIRST_NAME : ADD_EDIT_AUTOCOMPLETE.LAST_NAME;
+    switch (field) {
+      case 'email':
+        return ADD_EDIT_AUTOCOMPLETE.EMAIL;
+      case 'firstName':
+        return ADD_EDIT_AUTOCOMPLETE.FIRST_NAME;
+      default:
+        return ADD_EDIT_AUTOCOMPLETE.LAST_NAME;
+    }
   }
 
   getRoleIcon(role: UserRole): string {
-    return role === UserRole.ADMIN ? ADD_EDIT_ROLE_ICONS.ADMIN : role === UserRole.MANAGER ? ADD_EDIT_ROLE_ICONS.MANAGER : ADD_EDIT_ROLE_ICONS.USER;
+    switch (role) {
+      case UserRole.ADMIN:
+        return ADD_EDIT_ROLE_ICONS.ADMIN;
+      case UserRole.MANAGER:
+        return ADD_EDIT_ROLE_ICONS.MANAGER;
+      default:
+        return ADD_EDIT_ROLE_ICONS.USER;
+    }
   }
 
   getRoleIconClass(role: UserRole): string {
@@ -135,7 +240,8 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   }
 
   getRoleDisplayName(role: UserRole): string {
-    return this.availableRoles.find(r => r.value === role)?.label || role;
+    const roleOption = this.availableRoles.find(r => r.value === role);
+    return roleOption?.label || role;
   }
 
   getRolePermissionDescription(role: UserRole): string {
@@ -145,7 +251,6 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
       case UserRole.MANAGER:
         return ADD_EDIT_ROLE_PERMISSIONS.MANAGER;
       case UserRole.USER:
-        return ADD_EDIT_ROLE_PERMISSIONS.USER;
       default:
         return ADD_EDIT_ROLE_PERMISSIONS.USER;
     }
@@ -170,24 +275,27 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.isLoading = false;
           if (response.success && response.user) {
-            this.dialogRef.close({
+            const result: DialogCloseResult = {
               success: ADD_EDIT_DIALOG_RESPONSE.SUCCESS,
               user: response.user,
               mode: this.data.mode
-            });
+            };
+            this.dialogRef.close(result);
           } else {
-            this.dialogRef.close({
+            const result: DialogCloseResult = {
               success: ADD_EDIT_DIALOG_RESPONSE.FAILED,
               error: response.message || 'Operation failed'
-            });
+            };
+            this.dialogRef.close(result);
           }
         },
-        error: (error) => {
+        error: (error: string) => {
           this.isLoading = false;
-          this.dialogRef.close({
+          const result: DialogCloseResult = {
             success: ADD_EDIT_DIALOG_RESPONSE.FAILED,
             error: error || 'An error occurred'
-          });
+          };
+          this.dialogRef.close(result);
         }
       });
     } else {
@@ -196,9 +304,10 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   }
 
   onCancel(): void {
-    this.dialogRef.close({ 
+    const result: DialogCloseResult = { 
       success: ADD_EDIT_DIALOG_RESPONSE.FAILED, 
       cancelled: ADD_EDIT_DIALOG_RESPONSE.CANCELLED 
-    });
+    };
+    this.dialogRef.close(result);
   }
 }
