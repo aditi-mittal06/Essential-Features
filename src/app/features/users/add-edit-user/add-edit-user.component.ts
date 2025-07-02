@@ -161,28 +161,30 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSubmit(): void {
-    if (this.userForm.valid && !this.isLoading) {
-      this.isLoading = true;
-      const form: AddEditUserFormData = {
-        email: this.userForm.value.email.trim(),
-        firstName: this.userForm.value.firstName.trim(),
-        lastName: this.userForm.value.lastName.trim(),
-        role: this.userForm.value.role
-      };
-      setTimeout(() => {
-        const result = {
-          ...form,
-          id: this.isAddMode ? Date.now() : this.data.user!.id,
-          status: this.isAddMode ? true : this.data.user!.status
-        };
-        this.dialogRef.close({ success: ADD_EDIT_DIALOG_RESPONSE.SUCCESS, user: result, mode: this.data.mode });
-        this.isLoading = false;
-      }, ADD_EDIT_DIALOG_RESPONSE_DELAY_MS);
-    } else {
-      Object.values(this.userForm.controls).forEach(control => control.markAsTouched());
-    }
+ onSubmit(): void {
+  if (this.userForm.valid) {
+    const form: AddEditUserFormData = {
+      email: this.userForm.value.email.trim(),
+      firstName: this.userForm.value.firstName.trim(),
+      lastName: this.userForm.value.lastName.trim(),
+      role: this.userForm.value.role
+    };
+
+    const result = {
+      ...form,
+      id: this.isAddMode ? Date.now() : this.data.user!.id,
+      status: this.isAddMode ? true : this.data.user!.status
+    };
+
+    this.dialogRef.close({
+      success: ADD_EDIT_DIALOG_RESPONSE.SUCCESS,
+      user: result,
+      mode: this.data.mode
+    });
+  } else {
+    Object.values(this.userForm.controls).forEach(control => control.markAsTouched());
   }
+}
 
   onCancel(): void {
     this.dialogRef.close({ success: ADD_EDIT_DIALOG_RESPONSE.FAILED, cancelled: ADD_EDIT_DIALOG_RESPONSE.CANCELLED });
