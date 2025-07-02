@@ -43,6 +43,63 @@ export const ADD_EDIT_FORM_VALIDATION = {
 // ===== ADD/EDIT USER DIALOG RESPONSE DELAY =====
 export const ADD_EDIT_DIALOG_RESPONSE_DELAY_MS = 1500;
 
+// ===== ADD/EDIT USER DIALOG TITLES =====
+export const ADD_EDIT_DIALOG_TITLES = {
+  ADD_USER: 'Add New User',
+  EDIT_USER: 'Edit User'
+} as const;
+
+// ===== ADD/EDIT USER MODE VALUES =====
+export const ADD_EDIT_USER_MODES = {
+  ADD: 'add',
+  EDIT: 'edit'
+} as const;
+
+// ===== ADD/EDIT USER ROLE LABELS =====
+export const ADD_EDIT_ROLE_LABELS = {
+  ADMINISTRATOR: 'Administrator',
+  MANAGER: 'Manager',
+  USER: 'User'
+} as const;
+
+// ===== ADD/EDIT USER ROLE DESCRIPTIONS =====
+export const ADD_EDIT_ROLE_DESCRIPTIONS = {
+  ADMIN_FULL_ACCESS: 'Full system access',
+  MANAGER_MANAGE_USERS: 'Manage users',
+  USER_BASIC_ACCESS: 'Basic access'
+} as const;
+
+// ===== ADD/EDIT USER ROLE PERMISSIONS =====
+export const ADD_EDIT_ROLE_PERMISSIONS = {
+  ADMIN: 'Can manage all users and settings.',
+  MANAGER: 'Can manage users and view reports.',
+  USER: 'Standard user permissions.'
+} as const;
+
+// ===== ADD/EDIT USER ROLE ICONS =====
+export const ADD_EDIT_ROLE_ICONS = {
+  ADMIN: 'admin_panel_settings',
+  MANAGER: 'supervisor_account',
+  USER: 'person'
+} as const;
+
+// ===== ADD/EDIT USER AUTOCOMPLETE VALUES =====
+export const ADD_EDIT_AUTOCOMPLETE = {
+  EMAIL: 'email',
+  FIRST_NAME: 'given-name',
+  LAST_NAME: 'family-name'
+} as const;
+
+// ===== ADD/EDIT USER DIALOG RESPONSE =====
+export const ADD_EDIT_DIALOG_RESPONSE = {
+  SUCCESS: true,
+  CANCELLED: true,
+  FAILED: false
+} as const;
+
+// ===== ADD/EDIT USER ICON SUFFIX =====
+export const ADD_EDIT_ICON_SUFFIX = '-icon';
+
 // ===== USER MESSAGES =====
 export const USER_MESSAGES = {
   LOADING: 'Loading users...',
