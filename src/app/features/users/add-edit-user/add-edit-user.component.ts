@@ -17,7 +17,8 @@ import {
   ADD_EDIT_ROLE_ICONS,
   ADD_EDIT_AUTOCOMPLETE,
   ADD_EDIT_DIALOG_RESPONSE,
-  ADD_EDIT_ICON_SUFFIX
+  ADD_EDIT_ICON_SUFFIX,
+  ADD_EDIT_ALL_ROLES_TEMPLATE
 } from '../user.constant';
 
 @Component({
@@ -78,11 +79,15 @@ export class AddEditUserComponent implements OnInit, OnDestroy {
   setupAvailableRoles(): void {
     const currentRole = this.data.currentUserRole;
     const allowed = this.roleHierarchy[currentRole] || [UserRole.USER];
-    const allRoles: RoleOption[] = [
-      { value: UserRole.ADMIN, label: ADD_EDIT_ROLE_LABELS.ADMINISTRATOR, description: ADD_EDIT_ROLE_DESCRIPTIONS.ADMIN_FULL_ACCESS, disabled: !allowed.includes(UserRole.ADMIN) },
-      { value: UserRole.MANAGER, label: ADD_EDIT_ROLE_LABELS.MANAGER, description: ADD_EDIT_ROLE_DESCRIPTIONS.MANAGER_MANAGE_USERS, disabled: !allowed.includes(UserRole.MANAGER) },
-      { value: UserRole.USER, label: ADD_EDIT_ROLE_LABELS.USER, description: ADD_EDIT_ROLE_DESCRIPTIONS.USER_BASIC_ACCESS, disabled: !allowed.includes(UserRole.USER) }
-    ];
+    
+    // Create allRoles array using constants
+    const allRoles: RoleOption[] = ADD_EDIT_ALL_ROLES_TEMPLATE.map(roleTemplate => ({
+      value: roleTemplate.value as UserRole,
+      label: ADD_EDIT_ROLE_LABELS[roleTemplate.label as keyof typeof ADD_EDIT_ROLE_LABELS],
+      description: ADD_EDIT_ROLE_DESCRIPTIONS[roleTemplate.description as keyof typeof ADD_EDIT_ROLE_DESCRIPTIONS],
+      disabled: !allowed.includes(roleTemplate.value as UserRole)
+    }));
+    
     this.availableRoles = allRoles.filter(role => allowed.includes(role.value));
   }
 

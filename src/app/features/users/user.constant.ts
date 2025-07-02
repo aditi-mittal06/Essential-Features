@@ -100,6 +100,28 @@ export const ADD_EDIT_DIALOG_RESPONSE = {
 // ===== ADD/EDIT USER ICON SUFFIX =====
 export const ADD_EDIT_ICON_SUFFIX = '-icon';
 
+// ===== ADD/EDIT USER ALL ROLES TEMPLATE =====
+export const ADD_EDIT_ALL_ROLES_TEMPLATE = [
+  { 
+    value: 'Admin', 
+    label: 'ADMINISTRATOR', 
+    description: 'ADMIN_FULL_ACCESS', 
+    disabled: false 
+  },
+  { 
+    value: 'Manager', 
+    label: 'MANAGER', 
+    description: 'MANAGER_MANAGE_USERS', 
+    disabled: false 
+  },
+  { 
+    value: 'User', 
+    label: 'USER', 
+    description: 'USER_BASIC_ACCESS', 
+    disabled: false 
+  }
+] as const;
+
 // ===== USER MESSAGES =====
 export const USER_MESSAGES = {
   LOADING: 'Loading users...',
