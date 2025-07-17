@@ -1,46 +1,114 @@
 @import '../../styles/variables.scss';
 @import '../../styles/mixin.scss';
 
-.login-form{
-    display: flex;
-    flex-direction: column;
+.login-form {
+  @include flex-column;
+  width: 100%;
+  max-width: 400px;
+  margin: $spacing-lg auto;
+  padding: $spacing-lg;
+  background: $white;
+  @include border-radius(8);
+  @include box-shadow(0, 4px, 20px, rgba(0, 0, 0, 0.1));
+  
+  @include mobile-only {
+    margin: $spacing-md;
+    padding: $spacing-md;
+    max-width: none;
+    min-height: calc(100vh - #{$spacing-xl});
+    justify-content: center;
+  }
+  
+  @include tablet-up {
+    max-width: 500px;
+    margin: $spacing-xxl auto;
+    padding: $spacing-xl;
+  }
+  
+  @include desktop-up {
     max-width: 600px;
-    margin: 60px auto;
-    padding: 24px;
-    background: $white;
-    @include border-radius(8);
-    @include box-shadow(0, 4px, 20px, rgba(0, 0, 0, 0.1));
+  }
+  
+  h1 {
+    @include fontSize-lineHeight(24, 32);
+    color: $color-heading;
+    margin-bottom: $spacing-lg;
+    text-align: center;
     
-    h1{
-        @include fontSize-lineHeight(30,45);
-        color: $color-heading;
-        margin-bottom: 24px;
+    @include mobile-only {
+      @include fontSize-lineHeight(20, 28);
+      margin-bottom: $spacing-md;
+    }
+    
+    @include tablet-up {
+      @include fontSize-lineHeight(30, 45);
+    }
+  }
+  
+  .mat-mdc-form-field {
+    margin-bottom: $spacing-md;
+    width: 100%;
+    
+    @include mobile-only {
+      margin-bottom: $spacing-sm;
+    }
+    
+    @include tablet-up {
+      margin-bottom: 20px;
+    }
+  }
+  
+  .form__options {
+    @include flex-between;
+    margin: $spacing-md 0;
+    gap: $spacing-sm;
+    
+    @include mobile-only {
+      flex-direction: column;
+      align-items: stretch;
+      gap: $spacing-xs;
+      margin: $spacing-sm 0;
+    }
+    
+    a {
+      color: $primary-btn-background;
+      text-decoration: none;
+      @include fontSize-lineHeight(14, 20);
+      
+      @include mobile-only {
         text-align: center;
+        @include fontSize-lineHeight(13, 18);
+      }
+      
+      &:hover {
+        color: $primary-btn-background-hover;
+      }
     }
+  }
+  
+  .btn {
+    width: 100%;
+    margin-top: $spacing-md;
     
-    .mat-mdc-form-field{
-        margin-bottom: 20px;
+    @include mobile-only {
+      margin-top: $spacing-sm;
+      min-height: 48px;
     }
-    
-    .form__options {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 16px 0;
-        
-        a {
-            color: $primary-btn-background;
-            text-decoration: none;
-            @include fontSize-lineHeight(14, 20);
-            
-            &:hover {
-                color: $primary-btn-background-hover;
-            }
-        }
-    }
-    
-    .btn {
-        width: 100%;
-        margin-top: 16px;
-    }
+  }
+}
+
+// Full screen mobile layout
+@include mobile-only {
+  :host {
+    display: block;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: $spacing-md;
+    @include flex-center;
+  }
+  
+  mat-grid-list {
+    width: 100%;
+    height: 100%;
+  }
 }

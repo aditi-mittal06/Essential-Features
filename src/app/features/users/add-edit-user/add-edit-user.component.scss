@@ -2,28 +2,50 @@
 @import '../../../styles/mixin.scss';
 
 .add-edit-user-dialog {
-  min-width: 500px;
-  max-width: 600px;
-
-  @media (max-width: 768px) {
-    min-width: 320px;
+  width: 100%;
+  max-width: 500px;
+  
+  @include mobile-only {
     max-width: 95vw;
+    min-width: 280px;
+  }
+  
+  @include tablet-up {
+    max-width: 600px;
+    min-width: 500px;
   }
 }
 
 // Dialog Header
 .dialog-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
+  @include flex-center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-md;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  
+  @include mobile-only {
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+  }
 
   mat-icon {
-    @include fontSize-lineHeight(28, 28);
-    width: 28px;
-    height: 28px;
+    @include fontSize-lineHeight(24, 24);
+    width: 24px;
+    height: 24px;
+    
+    @include mobile-only {
+      @include fontSize-lineHeight(20, 20);
+      width: 20px;
+      height: 20px;
+    }
+    
+    @include tablet-up {
+      @include fontSize-lineHeight(28, 28);
+      width: 28px;
+      height: 28px;
+    }
 
     &.add-icon {
       color: $successNotifcation;
@@ -36,18 +58,35 @@
 
   h2 {
     margin: 0;
-    @include fontSize-lineHeight(20, 28);
+    @include fontSize-lineHeight(18, 24);
     font-weight: 500;
     color: $color-heading;
+    
+    @include mobile-only {
+      @include fontSize-lineHeight(16, 22);
+    }
+    
+    @include tablet-up {
+      @include fontSize-lineHeight(20, 28);
+    }
   }
 }
 
 // Form Styling
 .user-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 8px 0;
+  @include flex-column;
+  gap: $spacing-md;
+  padding: $spacing-sm 0;
+  
+  @include mobile-only {
+    gap: $spacing-sm;
+    padding: $spacing-xs 0;
+  }
+  
+  @include tablet-up {
+    gap: 20px;
+    padding: $spacing-sm 0;
+  }
 }
 
 .full-width {
@@ -57,30 +96,63 @@
 // Form Field Enhancements
 mat-form-field {
   .mat-mdc-form-field-subscript-wrapper {
-    margin-top: 8px;
+    margin-top: $spacing-sm;
+    
+    @include mobile-only {
+      margin-top: $spacing-xs;
+    }
   }
 
   .mat-mdc-form-field-hint-wrapper {
-    padding-top: 4px;
+    padding-top: $spacing-xs;
   }
 
   mat-icon[matSuffix] {
     color: rgba(0, 0, 0, 0.54);
-    @include fontSize-lineHeight(20, 20);
+    @include fontSize-lineHeight(18, 18);
+    
+    @include mobile-only {
+      @include fontSize-lineHeight(16, 16);
+    }
+    
+    @include tablet-up {
+      @include fontSize-lineHeight(20, 20);
+    }
   }
 }
 
 // Role Option Styling
 .role-option {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 0;
+  @include flex-center;
+  gap: $spacing-sm;
+  padding: $spacing-sm 0;
+  
+  @include mobile-only {
+    gap: $spacing-xs;
+    padding: $spacing-xs 0;
+  }
+  
+  @include tablet-up {
+    gap: $spacing-md;
+    padding: $spacing-sm 0;
+  }
 
   .role-icon {
-    @include fontSize-lineHeight(20, 20);
-    width: 20px;
-    height: 20px;
+    @include fontSize-lineHeight(18, 18);
+    width: 18px;
+    height: 18px;
+    
+    @include mobile-only {
+      @include fontSize-lineHeight(16, 16);
+      width: 16px;
+      height: 16px;
+    }
+    
+    @include tablet-up {
+      @include fontSize-lineHeight(20, 20);
+      width: 20px;
+      height: 20px;
+    }
 
     &.admin-icon {
       color: #2196f3;
@@ -95,21 +167,17 @@ mat-form-field {
     }
   }
 
-  .role-content {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-
-    .role-label {
-      font-weight: 500;
-      @include fontSize-lineHeight(14, 20);
-      color: $color-heading;
-    }
-
-    .role-description {
+  .role-description {
+    @include fontSize-lineHeight(13, 18);
+    color: rgba(0, 0, 0, 0.54);
+    line-height: 1.3;
+    
+    @include mobile-only {
       @include fontSize-lineHeight(12, 16);
-      color: rgba(0, 0, 0, 0.54);
-      line-height: 1.3;
+    }
+    
+    @include tablet-up {
+      @include fontSize-lineHeight(14, 20);
     }
   }
 }
@@ -118,75 +186,142 @@ mat-form-field {
 .role-info-card {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 16px;
+  gap: $spacing-sm;
+  padding: $spacing-md;
   background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
   @include border-radius(8);
   border-left: 4px solid #2196f3;
-  margin-top: 8px;
+  margin-top: $spacing-sm;
+  
+  @include mobile-only {
+    gap: $spacing-xs;
+    padding: $spacing-sm;
+    margin-top: $spacing-xs;
+  }
+  
+  @include tablet-up {
+    gap: $spacing-md;
+    padding: $spacing-md;
+  }
 
   .info-icon {
     color: #2196f3;
-    @include fontSize-lineHeight(20, 20);
+    @include fontSize-lineHeight(18, 18);
     margin-top: 2px;
+    
+    @include mobile-only {
+      @include fontSize-lineHeight(16, 16);
+    }
+    
+    @include tablet-up {
+      @include fontSize-lineHeight(20, 20);
+    }
   }
 
   .info-content {
     flex: 1;
 
     h4 {
-      margin: 0 0 8px 0;
-      @include fontSize-lineHeight(14, 20);
+      margin: 0 0 $spacing-sm 0;
+      @include fontSize-lineHeight(13, 18);
       font-weight: 600;
       color: #1976d2;
+      
+      @include mobile-only {
+        @include fontSize-lineHeight(12, 16);
+        margin-bottom: $spacing-xs;
+      }
+      
+      @include tablet-up {
+        @include fontSize-lineHeight(14, 20);
+      }
     }
 
     p {
       margin: 0;
-      @include fontSize-lineHeight(13, 18);
+      @include fontSize-lineHeight(12, 16);
       color: rgba(0, 0, 0, 0.7);
       line-height: 1.4;
+      
+      @include mobile-only {
+        @include fontSize-lineHeight(11, 15);
+      }
+      
+      @include tablet-up {
+        @include fontSize-lineHeight(13, 18);
+      }
     }
   }
 }
 
 // Dialog Actions
 .dialog-actions {
-  margin-top: 32px;
-  padding-top: 16px;
+  margin-top: $spacing-lg;
+  padding-top: $spacing-md;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
-  gap: 12px;
+  gap: $spacing-sm;
+  @include flex-between;
+  
+  @include mobile-only {
+    @include flex-column;
+    align-items: stretch;
+    margin-top: $spacing-md;
+    padding-top: $spacing-sm;
+    gap: $spacing-xs;
+  }
+  
+  @include tablet-up {
+    margin-top: $spacing-xl;
+    padding-top: $spacing-md;
+    gap: $spacing-md;
+  }
 
   button {
-    min-width: 120px;
-    height: 44px;
+    min-width: 100px;
+    height: 40px;
     font-weight: 500;
+    
+    @include mobile-only {
+      width: 100%;
+      height: 44px;
+      margin: $spacing-xs 0;
+    }
+    
+    @include tablet-up {
+      min-width: 120px;
+      height: 44px;
+    }
 
     mat-icon {
-      margin-right: 8px;
-      @include fontSize-lineHeight(18, 18);
+      margin-right: $spacing-sm;
+      @include fontSize-lineHeight(16, 16);
+      
+      @include mobile-only {
+        margin-right: $spacing-xs;
+        @include fontSize-lineHeight(14, 14);
+      }
+      
+      @include tablet-up {
+        @include fontSize-lineHeight(18, 18);
+      }
     }
-
-    .button-spinner {
-      margin-right: 8px;
-    }
-  }
-}
-
-// Loading State
-.button-spinner {
-  ::ng-deep circle {
-    stroke: currentColor;
   }
 }
 
 // Error States
 mat-error {
-  @include fontSize-lineHeight(12, 16);
-  margin-top: 4px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  @include fontSize-lineHeight(11, 14);
+  margin-top: $spacing-xs;
+  @include flex-center;
+  gap: $spacing-xs;
+  
+  @include mobile-only {
+    @include fontSize-lineHeight(10, 13);
+  }
+  
+  @include tablet-up {
+    @include fontSize-lineHeight(12, 16);
+  }
 
   &::before {
     content: '⚠';
@@ -196,8 +331,16 @@ mat-error {
 
 // Validation Hints
 mat-hint {
-  @include fontSize-lineHeight(12, 16);
+  @include fontSize-lineHeight(11, 14);
   color: rgba(0, 0, 0, 0.54);
+  
+  @include mobile-only {
+    @include fontSize-lineHeight(10, 13);
+  }
+  
+  @include tablet-up {
+    @include fontSize-lineHeight(12, 16);
+  }
 }
 
 // Focus States
@@ -218,16 +361,31 @@ mat-form-field.mat-form-field-disabled {
 
 // Select Panel Styling
 ::ng-deep .mat-mdc-select-panel {
-  max-height: 300px;
+  max-height: 250px;
+  
+  @include mobile-only {
+    max-height: 200px;
+  }
+  
+  @include tablet-up {
+    max-height: 300px;
+  }
 
   .mat-mdc-option {
-    min-height: 60px;
+    min-height: 48px;
+    
+    @include mobile-only {
+      min-height: 44px;
+    }
+    
+    @include tablet-up {
+      min-height: 60px;
+    }
 
     &.mat-mdc-option-disabled {
       opacity: 0.5;
 
       .role-option {
-        .role-label,
         .role-description {
           color: #ccc;
         }
@@ -243,94 +401,20 @@ mat-form-field.mat-form-field-disabled {
 // Tooltip Styling
 ::ng-deep .mat-mdc-tooltip {
   background: rgba(0, 0, 0, 0.9);
-  color: white;
-  font-size: 12px;
-  max-width: 200px;
+  color: $white;
+  @include fontSize-lineHeight(11, 14);
+  max-width: 180px;
   text-align: center;
-  border-radius: 4px;
-}
-
-// Responsive Design
-@media (max-width: 600px) {
-  .add-edit-user-dialog {
-    min-width: 280px;
+  @include border-radius(4);
+  
+  @include mobile-only {
+    @include fontSize-lineHeight(10, 13);
+    max-width: 150px;
   }
-
-  .dialog-header {
-    gap: 12px;
-    margin-bottom: 20px;
-
-    mat-icon {
-      font-size: 24px;
-      width: 24px;
-      height: 24px;
-    }
-
-    h2 {
-      font-size: 18px;
-    }
-  }
-
-  .user-form {
-    gap: 16px;
-  }
-
-  .role-option {
-    gap: 8px;
-
-    .role-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-    }
-
-    .role-content {
-      .role-label {
-        font-size: 13px;
-      }
-
-      .role-description {
-        font-size: 11px;
-      }
-    }
-  }
-
-  .role-info-card {
-    padding: 12px;
-    gap: 8px;
-
-    .info-content {
-      h4 {
-        font-size: 13px;
-      }
-
-      p {
-        font-size: 12px;
-      }
-    }
-  }
-
-  .dialog-actions {
-    button {
-      min-width: 100px;
-      height: 40px;
-
-      mat-icon {
-        font-size: 16px;
-      }
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .dialog-actions {
-    flex-direction: column-reverse;
-    align-items: stretch;
-
-    button {
-      width: 100%;
-      margin: 4px 0;
-    }
+  
+  @include tablet-up {
+    @include fontSize-lineHeight(12, 16);
+    max-width: 200px;
   }
 }
 
@@ -357,20 +441,37 @@ mat-form-field.mat-form-field-disabled {
 // Custom Scrollbar for Select
 ::ng-deep .mat-mdc-select-panel {
   &::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
+    
+    @include tablet-up {
+      width: 6px;
+    }
   }
 
   &::-webkit-scrollbar-track {
     background: #f1f1f1;
-    border-radius: 3px;
+    @include border-radius(3);
   }
 
   &::-webkit-scrollbar-thumb {
     background: #c1c1c1;
-    border-radius: 3px;
+    @include border-radius(3);
 
     &:hover {
       background: #a8a8a8;
+    }
+  }
+}
+
+// Mobile-specific adjustments
+@include mobile-only {
+  .dialog-actions {
+    button:first-child {
+      order: 2;
+    }
+    
+    button:last-child {
+      order: 1;
     }
   }
 }

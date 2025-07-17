@@ -2,81 +2,194 @@
 @import '../../../styles/mixin.scss';
 
 .modal-wrap {
-  max-width: 500px;
+  width: 100%;
+  max-width: 400px;
   margin: 0 auto;
   background: $white;
   @include border-radius(8);
   @include box-shadow(0, 4px, 20px, rgba(0, 0, 0, 0.1));
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
+  padding: $spacing-lg;
+  @include flex-column;
+  
+  @include mobile-only {
+    max-width: 95vw;
+    margin: $spacing-md;
+    padding: $spacing-md;
+    @include border-radius(6);
+  }
+  
+  @include tablet-up {
+    max-width: 500px;
+    padding: $spacing-xl;
+  }
 
   &.modal--sm {
     width: 90%;
     max-width: 400px;
+    
+    @include mobile-only {
+      width: 95%;
+      max-width: 320px;
+    }
   }
 }
 
 .mat-form-formatting {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  @include flex-column;
+  gap: $spacing-md;
+  
+  @include mobile-only {
+    gap: $spacing-sm;
+  }
 
   .text-center {
     text-align: center;
   }
 
   .confirmation-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    h1 {
-      @include fontSize-lineHeight(20, 28);
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: $color-heading;
+    @include flex-column;
+    @include flex-center;
+    
+    &__circle {
+      width: 60px;
+      height: 60px;
+      @include border-radius(50);
+      background: rgba($desire, 0.1);
+      @include flex-center;
+      margin-bottom: $spacing-md;
+      
+      @include mobile-only {
+        width: 50px;
+        height: 50px;
+        margin-bottom: $spacing-sm;
+      }
+      
+      i {
+        color: $desire;
+        @include fontSize-lineHeight(24, 24);
+        
+        @include mobile-only {
+          @include fontSize-lineHeight(20, 20);
+        }
+      }
     }
 
-    p {
-      @include fontSize-lineHeight(16, 24);
-      color: rgba(0, 0, 0, 0.54);
-      margin: 0;
-    }
-  }
-
-  .confirmation-footer {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-
-    button {
-      flex: 1;
-    }
-  }
-}
-
-// Responsive tweaks
-@media (max-width: 480px) {
-  .modal-wrap {
-    padding: 16px;
-  }
-
-  .confirmation-box {
     h1 {
       @include fontSize-lineHeight(18, 24);
+      font-weight: 600;
+      margin-bottom: $spacing-sm;
+      color: $color-heading;
+      
+      @include mobile-only {
+        @include fontSize-lineHeight(16, 22);
+        margin-bottom: $spacing-xs;
+      }
+      
+      @include tablet-up {
+        @include fontSize-lineHeight(20, 28);
+      }
     }
 
     p {
       @include fontSize-lineHeight(14, 20);
+      color: rgba(0, 0, 0, 0.54);
+      margin: 0;
+      max-width: 300px;
+      
+      @include mobile-only {
+        @include fontSize-lineHeight(13, 18);
+        max-width: 250px;
+      }
+      
+      @include tablet-up {
+        @include fontSize-lineHeight(16, 24);
+        max-width: 350px;
+      }
     }
   }
 
   .confirmation-footer {
-    flex-direction: column;
+    @include flex-between;
+    gap: $spacing-sm;
+    margin-top: $spacing-md;
+    
+    @include mobile-only {
+      @include flex-column;
+      gap: $spacing-xs;
+      margin-top: $spacing-sm;
+    }
+    
+    @include tablet-up {
+      gap: $spacing-md;
+      margin-top: $spacing-lg;
+    }
 
     button {
-      width: 100%;
+      flex: 1;
+      height: 40px;
+      font-weight: 500;
+      @include fontSize-lineHeight(14, 20);
+      
+      @include mobile-only {
+        width: 100%;
+        height: 44px;
+        @include fontSize-lineHeight(13, 18);
+      }
+      
+      @include tablet-up {
+        height: 44px;
+        @include fontSize-lineHeight(15, 22);
+      }
+    }
+  }
+}
+
+// Mobile-first responsive adjustments
+@include mobile-only {
+  .confirmation-footer {
+    button:first-child {
+      order: 2;
+    }
+    
+    button:last-child {
+      order: 1;
+    }
+  }
+}
+
+// Landscape mobile adjustments
+@media (max-height: 500px) and (orientation: landscape) {
+  .modal-wrap {
+    padding: $spacing-sm;
+    
+    .confirmation-box {
+      &__circle {
+        width: 40px;
+        height: 40px;
+        margin-bottom: $spacing-xs;
+        
+        i {
+          @include fontSize-lineHeight(16, 16);
+        }
+      }
+      
+      h1 {
+        @include fontSize-lineHeight(14, 20);
+        margin-bottom: $spacing-xs;
+      }
+      
+      p {
+        @include fontSize-lineHeight(12, 16);
+      }
+    }
+    
+    .confirmation-footer {
+      margin-top: $spacing-sm;
+      
+      button {
+        height: 36px;
+        @include fontSize-lineHeight(12, 16);
+      }
     }
   }
 }

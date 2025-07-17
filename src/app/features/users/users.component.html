@@ -1,4 +1,4 @@
-<div class="users-container">
+<div class="users-container container">
   <mat-card>
     <mat-card-header>
       <mat-card-title>User Management</mat-card-title>
@@ -16,7 +16,8 @@
             (change)="onFilterToggle()"
             color="primary"
           >
-            Show All Users (including inactive)
+            <span class="d-mobile-none">Show All Users (including inactive)</span>
+            <span class="d-tablet-none d-mobile-block">Show All</span>
           </mat-slide-toggle>
         </div>
 
@@ -107,14 +108,14 @@
                 mat-header-cell
                 *matHeaderCellDef
                 mat-sort-header
-                class="header-cell"
+                class="header-cell d-mobile-none"
               >
                 <span>Email</span>
               </th>
               <td mat-cell *matCellDef="let user" class="data-cell email-cell">
                 {{ user.email }}
               </td>
-            </ng-container>
+                class="data-cell email-cell d-mobile-none"
 
             <!-- Role -->
             <ng-container matColumnDef="role">
