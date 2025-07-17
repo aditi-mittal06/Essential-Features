@@ -1,15 +1,16 @@
-@use '../../../styles/variables.scss' as *;
-@use '../../../styles/mixin.scss' as *;
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixin.scss';
 
 .modal-wrap {
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
-  background: $white;
+  background: $background-card;
   @include border-radius(8);
-  @include box-shadow(0, 4px, 20px, rgba(0, 0, 0, 0.1));
+  @include box-shadow(0, 4px, 20px, $shadow-light);
   padding: $spacing-lg;
   @include flex-column;
+  @include transition();
   
   @include mobile-only {
     max-width: 95vw;
@@ -54,7 +55,7 @@
       width: 60px;
       height: 60px;
       @include border-radius(50);
-      background: rgba($desire, 0.1);
+      background: rgba($error-color, 0.1);
       @include flex-center;
       margin-bottom: $spacing-md;
       
@@ -65,7 +66,7 @@
       }
       
       i {
-        color: $desire;
+        color: $error-color;
         @include fontSize-lineHeight(24, 24);
         
         @include mobile-only {
@@ -78,7 +79,7 @@
       @include fontSize-lineHeight(18, 24);
       font-weight: 600;
       margin-bottom: $spacing-sm;
-      color: $color-heading;
+      color: $text-primary;
       
       @include mobile-only {
         @include fontSize-lineHeight(16, 22);
@@ -92,7 +93,7 @@
 
     p {
       @include fontSize-lineHeight(14, 20);
-      color: rgba(0, 0, 0, 0.54);
+      color: $text-secondary;
       margin: 0;
       max-width: 300px;
       
@@ -129,6 +130,7 @@
       height: 40px;
       font-weight: 500;
       @include fontSize-lineHeight(14, 20);
+      @include transition();
       
       @include mobile-only {
         width: 100%;

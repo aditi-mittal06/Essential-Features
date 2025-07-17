@@ -7,6 +7,32 @@ $desire: #ef4157;
 $color-white: #fff;
 $global-fonts: 'Nunito', sans-serif;
 $successNotifcation: #30cb83;
+$error-color: #f44336;
+$warning-color: #ff9800;
+$info-color: #2196f3;
+$success-color: #4caf50;
+
+// Additional semantic colors
+$text-primary: #212121;
+$text-secondary: #757575;
+$text-disabled: #bdbdbd;
+$divider-color: #e0e0e0;
+$background-light: #fafafa;
+$background-card: #ffffff;
+
+// Form colors
+$input-border: #e0e0e0;
+$input-focus: #2196f3;
+$input-error: #f44336;
+
+// Button colors
+$button-disabled: #e0e0e0;
+$button-disabled-text: #9e9e9e;
+
+// Shadow colors
+$shadow-light: rgba(0, 0, 0, 0.1);
+$shadow-medium: rgba(0, 0, 0, 0.2);
+$shadow-dark: rgba(0, 0, 0, 0.3);
 
 // Breakpoints
 $breakpoint-xs: 480px;

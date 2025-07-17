@@ -37,6 +37,45 @@
     -moz-border-radius: $radius + px;
   }
 
+// Animation mixins
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+@mixin transform($transforms) {
+  -webkit-transform: $transforms;
+  -moz-transform: $transforms;
+  -ms-transform: $transforms;
+  transform: $transforms;
+}
+
+// Form mixins
+@mixin input-focus($color: $input-focus) {
+  border-color: $color;
+  box-shadow: 0 0 0 2px rgba($color, 0.2);
+  outline: none;
+}
+
+@mixin button-hover($background-color, $darken-amount: 10%) {
+  &:hover {
+    background-color: darken($background-color, $darken-amount);
+  }
+}
+
+// Text mixins
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 // Responsive breakpoint mixins
 @mixin mobile-only {
   @media (max-width: #{$breakpoint-xs - 1px}) {

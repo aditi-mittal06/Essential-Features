@@ -1,5 +1,5 @@
-@use '../../styles/variables.scss' as *;
-@use '../../styles/mixin.scss' as *;
+@import '../../styles/variables.scss';
+@import '../../styles/mixin.scss';
 
 .login-form {
   @include flex-column;
@@ -7,9 +7,10 @@
   max-width: 400px;
   margin: $spacing-lg auto;
   padding: $spacing-lg;
-  background: $white;
+  background: $background-card;
   @include border-radius(8);
-  @include box-shadow(0, 4px, 20px, rgba(0, 0, 0, 0.1));
+  @include box-shadow(0, 4px, 20px, $shadow-light);
+  @include transition();
   
   @include mobile-only {
     margin: $spacing-md;
@@ -31,7 +32,7 @@
   
   h1 {
     @include fontSize-lineHeight(24, 32);
-    color: $color-heading;
+    color: $text-primary;
     margin-bottom: $spacing-lg;
     text-align: center;
     
@@ -74,6 +75,7 @@
       color: $primary-btn-background;
       text-decoration: none;
       @include fontSize-lineHeight(14, 20);
+      @include transition(color);
       
       @include mobile-only {
         text-align: center;
@@ -89,6 +91,7 @@
   .btn {
     width: 100%;
     margin-top: $spacing-md;
+    @include transition();
     
     @include mobile-only {
       margin-top: $spacing-sm;
@@ -102,7 +105,7 @@
   :host {
     display: block;
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, $info-color 0%, #764ba2 100%);
     padding: $spacing-md;
     @include flex-center;
   }

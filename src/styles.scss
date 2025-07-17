@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
-@use './app/styles/mixin' as *;
-@use './app/styles/variables' as *;
+@import './app/styles/variables.scss';
+@import './app/styles/mixin.scss';
 
 html,
 body {
@@ -11,6 +11,8 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   overflow-x: hidden;
+  color: $text-primary;
+  background-color: $background-light;
 }
 
 // Base responsive styles
@@ -84,7 +86,7 @@ body {
   -webkit-appearance: none;
   overflow: visible;
   vertical-align: middle;
-  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  @include transition(box-shadow, 280ms, cubic-bezier(0.4, 0, 0.2, 1));
   min-height: 44px;
   border-radius: 3px;
   cursor: pointer;
@@ -99,9 +101,12 @@ body {
   &.btn--primary {
     background: $primary-btn-background;
     color: $color-white;
+    @include button-hover($primary-btn-background);
     
-    &:hover {
-      background: $primary-btn-background-hover;
+    &:disabled {
+      background: $button-disabled;
+      color: $button-disabled-text;
+      cursor: not-allowed;
     }
   }
 }
@@ -109,38 +114,73 @@ body {
 .mat-mdc-snack-bar-container {
   &.global-error {
     .mdc-snackbar__surface {
-      background-color: $desire;
+      background-color: $error-color;
       border-radius: 25px;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+      @include box-shadow(0, 3px, 6px, $shadow-medium);
       
       @include mobile-only {
         border-radius: 15px;
       }
       
       .mdc-snackbar__label {
-        color: $white;
+        color: $color-white;
         font-family: $global-fonts;
       }
     }
   }
   &.global-success {
     .mdc-snackbar__surface {
-      background-color: $successNotifcation;
+      background-color: $success-color;
       border-radius: 25px;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+      @include box-shadow(0, 3px, 6px, $shadow-medium);
       
       @include mobile-only {
         border-radius: 15px;
       }
       
       .mdc-snackbar__label {
-        color: $white;
+        color: $color-white;
         font-family: $global-fonts;
       }
     }
   }
   .mdc-snackbar__action {
-    color: $white !important;
+    color: $color-white !important;
     min-width: 40px;
+  }
+}
+
+// Global form styling
+.mat-mdc-form-field {
+  .mat-mdc-form-field-outline {
+    color: $input-border;
+  }
+  
+  &.mat-focused .mat-mdc-form-field-outline-thick {
+    color: $input-focus;
+  }
+  
+  &.mat-form-field-invalid .mat-mdc-form-field-outline-thick {
+    color: $input-error;
+  }
+}
+
+// Global loading spinner
+.mat-mdc-progress-spinner {
+  circle {
+    stroke: $primary-btn-background;
+  }
+}
+
+// Global table styling
+.mat-mdc-table {
+  background: $background-card;
+  
+  .mat-mdc-header-row {
+    background: $background-light;
+  }
+  
+  .mat-mdc-row:hover {
+    background: $background-light;
   }
 }
