@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
-@use './styles/mixin' as *;
-@use './styles/variables' as *;
+@use './app/styles/mixin' as *;
+@use './app/styles/variables' as *;
 
 html,
 body {
