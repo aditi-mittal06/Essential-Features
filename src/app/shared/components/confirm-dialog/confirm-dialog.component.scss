@@ -1,9 +1,12 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixin.scss';
+
 .modal-wrap {
   max-width: 500px;
   margin: 0 auto;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  background: $white;
+  @include border-radius(8);
+  @include box-shadow(0, 4px, 20px, rgba(0, 0, 0, 0.1));
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -29,15 +32,15 @@
     align-items: center;
 
     h1 {
-      font-size: 20px;
+      @include fontSize-lineHeight(20, 28);
       font-weight: 600;
       margin-bottom: 8px;
-      color: #333;
+      color: $color-heading;
     }
 
     p {
-      font-size: 16px;
-      color: #666;
+      @include fontSize-lineHeight(16, 24);
+      color: rgba(0, 0, 0, 0.54);
       margin: 0;
     }
   }
@@ -61,11 +64,11 @@
 
   .confirmation-box {
     h1 {
-      font-size: 18px;
+      @include fontSize-lineHeight(18, 24);
     }
 
     p {
-      font-size: 14px;
+      @include fontSize-lineHeight(14, 20);
     }
   }
 

@@ -1,14 +1,46 @@
-@import '../../styles/mixin.scss';
 @import '../../styles/variables.scss';
+@import '../../styles/mixin.scss';
+
 .login-form{
     display: flex;
     flex-direction: column;
     max-width: 600px;
     margin: 60px auto;
+    padding: 24px;
+    background: $white;
+    @include border-radius(8);
+    @include box-shadow(0, 4px, 20px, rgba(0, 0, 0, 0.1));
+    
     h1{
         @include fontSize-lineHeight(30,45);
+        color: $color-heading;
+        margin-bottom: 24px;
+        text-align: center;
     }
+    
     .mat-mdc-form-field{
         margin-bottom: 20px;
+    }
+    
+    .form__options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 16px 0;
+        
+        a {
+            color: $primary-btn-background;
+            text-decoration: none;
+            @include fontSize-lineHeight(14, 20);
+            
+            &:hover {
+                color: $primary-btn-background-hover;
+            }
+        }
+    }
+    
+    .btn {
+        width: 100%;
+        margin-top: 16px;
     }
 }
