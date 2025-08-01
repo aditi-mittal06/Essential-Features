@@ -174,7 +174,7 @@ mat-form-field {
     }
 
     &.manager-icon {
-      color: #9c27b0;
+      color: $warning-color;
     }
 
     &.user-icon {
@@ -203,7 +203,7 @@ mat-form-field {
   align-items: flex-start;
   gap: $spacing-sm;
   padding: $spacing-md;
-  background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+  background: linear-gradient(135deg, $background-light, rgba($info-color, 0.1));
   @include border-radius(8);
   border-left: 4px solid $info-color;
   margin-top: $spacing-sm;
@@ -241,7 +241,7 @@ mat-form-field {
       margin: 0 0 $spacing-sm 0;
       @include fontSize-lineHeight(13, 18);
       font-weight: 600;
-      color: darken($info-color, 10%);
+      color: $primary-btn-background;
 
       @include mobile-only {
         @include fontSize-lineHeight(12, 16);
@@ -418,7 +418,7 @@ mat-form-field.mat-form-field-disabled {
 
 // Tooltip Styling
 ::ng-deep .mat-mdc-tooltip {
-  background: rgba($text-primary, 0.9);
+  background: $text-primary;
   color: $color-white;
   @include fontSize-lineHeight(11, 14);
   max-width: 180px;
