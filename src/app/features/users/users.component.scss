@@ -1,5 +1,5 @@
-@import "../../styles/variables.scss";
-@import "../../styles/mixin.scss";
+@use from "../../styles/variables.scss" as *;
+@use  from"../../styles/mixin.scss" as *;
 
 // Mobile Header
 .mobile-header {
