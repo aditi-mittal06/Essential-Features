@@ -1,0 +1,117 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixin.scss";
+
+.login-form {
+  @include flex-column;
+  width: 100%;
+  max-width: 400px;
+  margin: $spacing-lg auto;
+  padding: $spacing-lg;
+  background: $background-card;
+  @include border-radius(8);
+  @include box-shadow(0, 4px, 20px, $shadow-light);
+  @include transition();
+
+  @include mobile-only {
+    margin: $spacing-md;
+    padding: $spacing-md;
+    max-width: none;
+    min-height: calc(100vh - #{$spacing-xl});
+    justify-content: center;
+  }
+
+  @include tablet-up {
+    max-width: 500px;
+    margin: $spacing-xxl auto;
+    padding: $spacing-xl;
+  }
+
+  @include desktop-up {
+    max-width: 600px;
+  }
+
+  h1 {
+    @include fontSize-lineHeight(24, 32);
+    color: $text-primary;
+    margin-bottom: $spacing-lg;
+    text-align: center;
+
+    @include mobile-only {
+      @include fontSize-lineHeight(20, 28);
+      margin-bottom: $spacing-md;
+    }
+
+    @include tablet-up {
+      @include fontSize-lineHeight(30, 45);
+    }
+  }
+
+  .mat-mdc-form-field {
+    margin-bottom: $spacing-md;
+    width: 100%;
+
+    @include mobile-only {
+      margin-bottom: $spacing-sm;
+    }
+
+    @include tablet-up {
+      margin-bottom: 20px;
+    }
+  }
+
+  .form__options {
+    @include flex-between;
+    margin: $spacing-md 0;
+    gap: $spacing-sm;
+
+    @include mobile-only {
+      flex-direction: column;
+      align-items: stretch;
+      gap: $spacing-xs;
+      margin: $spacing-sm 0;
+    }
+
+    a {
+      color: $primary-btn-background;
+      text-decoration: none;
+      @include fontSize-lineHeight(14, 20);
+      @include transition(color);
+
+      @include mobile-only {
+        text-align: center;
+        @include fontSize-lineHeight(13, 18);
+      }
+
+      &:hover {
+        color: $primary-btn-background-hover;
+      }
+    }
+  }
+
+  .btn {
+    width: 100%;
+    margin-top: $spacing-md;
+    @include transition();
+
+    @include mobile-only {
+      margin-top: $spacing-sm;
+      min-height: 48px;
+    }
+  }
+}
+
+// Full screen mobile layout
+@include mobile-only {
+  :host {
+    display: block;
+    min-height: 100vh;
+    background: linear-gradient(135deg, $info-color 0%, #764ba2 100%);
+    padding: $spacing-md;
+    @include flex-center;
+  }
+
+  mat-grid-list {
+    width: 100%;
+    height: 100%;
+  }
+}

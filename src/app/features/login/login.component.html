@@ -1,0 +1,56 @@
+<mat-grid-list cols="1">
+  <form class="login-form" [formGroup]="logInForm">
+    <h1>login</h1>
+    <mat-form-field class="example-full-width">
+      <mat-label>Email Address</mat-label>
+      <input matInput placeholder="Email address" formControlName="email" />
+      @if(formControl['email'].errors){
+      <mat-error>
+        @if(formControl['email'].errors['required']){
+        <label>This field is required.</label>}
+        @if(formControl['email'].errors['email']){
+        @if(formControl['email'].errors['maxlength']){
+        <label>Email length cannot exceed 100 characters.</label>
+        } @else{
+        <label>Please enter a valid email address.</label>
+        } }</mat-error
+      >
+      }
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        [type]="hidePassword ? 'password' : 'text'"
+        placeholder="Password"
+        formControlName="password"
+        id="password"
+      />
+      <button
+        type="button"
+        mat-icon-button
+        matSuffix
+        (click)="hidePassword = !hidePassword"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hidePassword"
+      >
+        <mat-icon>{{
+          hidePassword ? "visibility_off" : "visibility"
+        }}</mat-icon>
+      </button>
+      @if(formControl['password'].errors){
+      <mat-error>
+        @if(formControl['password'].errors['required']){
+        <label>This field is required.</label>} </mat-error
+      >}
+    </mat-form-field>
+    <div class="form__options">
+      <div></div>
+      <a (click)="onForgotPasswordClick()">Forgot Password?</a>
+    </div>
+
+    <button type="submit" class="btn btn-primary" (click)="onLogInClick()">
+      Login
+    </button>
+  </form>
+</mat-grid-list>
