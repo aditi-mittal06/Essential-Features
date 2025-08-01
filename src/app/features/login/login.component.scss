@@ -105,7 +105,7 @@
   :host {
     display: block;
     min-height: 100vh;
-    background: linear-gradient(135deg, $info-color 0%, #764ba2 100%);
+    background: linear-gradient(135deg, $info-color 0%, $primary-btn-background-hover 100%);
     padding: $spacing-md;
     @include flex-center;
   }
