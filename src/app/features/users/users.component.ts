@@ -68,16 +68,54 @@ export class UsersComponent
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  
+  // Responsive breakpoint detection
+  isMobile = false;
+  isTablet = false;
+  
+  private mediaQueryMobile = window.matchMedia('(max-width: 767px)');
+  private mediaQueryTablet = window.matchMedia('(min-width: 768px) and (max-width: 991px)');
 
   // Duplicate constructor and onLogout removed
 
   ngOnInit(): void {
     this.getCurrentUserRole();
     this.loadUsers();
+    this.setupMediaQueries();
   }
 
   ngAfterViewInit(): void {
     this.gridSorting();
+  }
+  
+  private setupMediaQueries(): void {
+    this.isMobile = this.mediaQueryMobile.matches;
+    this.isTablet = this.mediaQueryTablet.matches;
+    
+    this.mediaQueryMobile.addEventListener('change', (e) => {
+      this.isMobile = e.matches;
+      this.updateDisplayedColumns();
+    });
+    
+    this.mediaQueryTablet.addEventListener('change', (e) => {
+      this.isTablet = e.matches;
+      this.updateDisplayedColumns();
+    });
+    
+    this.updateDisplayedColumns();
+  }
+  
+  private updateDisplayedColumns(): void {
+    if (this.isMobile) {
+      // Mobile view uses cards, so we don't need to modify columns
+      this.displayedColumns = [...USER_TABLE_COLUMNS];
+    } else if (this.isTablet) {
+      // Hide email column on tablet
+      this.displayedColumns = USER_TABLE_COLUMNS.filter(col => col !== 'email');
+    } else {
+      // Desktop shows all columns
+      this.displayedColumns = [...USER_TABLE_COLUMNS];
+    }
   }
 
   private getCurrentUserRole(): void {

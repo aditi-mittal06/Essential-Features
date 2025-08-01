@@ -15,6 +15,20 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [],
@@ -36,6 +50,20 @@ import { MatSortModule } from '@angular/material/sort';
     MatButtonModule,
     MatSelectModule,
     MatSortModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatExpansionModule,
+    MatTabsModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatSnackBarModule,
   ],
   exports: [
     MatGridListModule,
@@ -55,6 +83,20 @@ import { MatSortModule } from '@angular/material/sort';
     MatButtonModule,
     MatSelectModule,
     MatSortModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatExpansionModule,
+    MatTabsModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatSnackBarModule,
   ],
 })
 export class SharedModule {}
