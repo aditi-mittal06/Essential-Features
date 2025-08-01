@@ -77,50 +77,130 @@
 }
 
 // Responsive breakpoint mixins
-@mixin mobile-only {
-  @media (max-width: #{$breakpoint-xs - 1px}) {
+// Enhanced responsive mixins for comprehensive device support
+@mixin ultra-wide-up {
+  @media (min-width: $breakpoint-ultra) {
     @content;
   }
 }
 
-@mixin mobile-up {
+@mixin small-mobile-only {
+  @media (max-width: #{$breakpoint-sm - 1px}) {
+    @content;
+  }
+}
+
+@mixin small-mobile-up {
   @media (min-width: $breakpoint-xs) {
     @content;
   }
 }
 
-@mixin tablet-only {
-  @media (min-width: $breakpoint-xs) and (max-width: #{$breakpoint-sm - 1px}) {
+@mixin mobile-only {
+  @media (max-width: #{$breakpoint-md - 1px}) {
     @content;
   }
 }
 
-@mixin tablet-up {
+@mixin mobile-up {
   @media (min-width: $breakpoint-sm) {
     @content;
   }
 }
 
-@mixin desktop-only {
+@mixin large-mobile-only {
   @media (min-width: $breakpoint-sm) and (max-width: #{$breakpoint-md - 1px}) {
     @content;
   }
 }
 
-@mixin desktop-up {
+@mixin tablet-only {
+  @media (min-width: $breakpoint-md) and (max-width: #{$breakpoint-lg - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
   @media (min-width: $breakpoint-md) {
     @content;
   }
 }
 
-@mixin large-up {
+@mixin laptop-only {
+  @media (min-width: $breakpoint-lg) and (max-width: #{$breakpoint-xl - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
   @media (min-width: $breakpoint-lg) {
     @content;
   }
 }
 
-@mixin xl-up {
+@mixin large-up {
   @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+@mixin xl-up {
+  @media (min-width: $breakpoint-xxl) {
+    @content;
+  }
+}
+
+// Orientation mixins
+@mixin landscape {
+  @media (orientation: landscape) {
+    @content;
+  }
+}
+
+@mixin portrait {
+  @media (orientation: portrait) {
+    @content;
+  }
+}
+
+// High DPI mixins
+@mixin retina {
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    @content;
+  }
+}
+
+// Touch device mixin
+@mixin touch-device {
+  @media (hover: none) and (pointer: coarse) {
+    @content;
+  }
+}
+
+// Print media mixin
+@mixin print-only {
+  @media print {
+    @content;
+  }
+}
+
+// Reduced motion mixin for accessibility
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+// High contrast mixin for accessibility
+@mixin high-contrast {
+  @media (prefers-contrast: high) {
+    @content;
+  }
+}
+
+// Dark mode preference mixin
+@mixin dark-mode {
+  @media (prefers-color-scheme: dark) {
     @content;
   }
 }
@@ -149,6 +229,10 @@
   margin: 0 auto;
   padding: 0 $spacing-md;
 
+  @include small-mobile-only {
+    padding: 0 $spacing-sm;
+  }
+
   @include tablet-up {
     max-width: $container-md;
     padding: 0 $spacing-lg;
@@ -160,5 +244,36 @@
 
   @include large-up {
     max-width: $container-xl;
+  }
+
+  @include ultra-wide-up {
+    max-width: 1600px;
+    padding: 0 $spacing-xxl;
+  }
+}
+
+// Touch-friendly button mixin
+@mixin touch-friendly-button {
+  min-height: $touch-target-min;
+  min-width: $touch-target-min;
+  padding: $spacing-sm $spacing-md;
+  
+  @include touch-device {
+    min-height: $touch-target-comfortable;
+    min-width: $touch-target-comfortable;
+    padding: $spacing-md $spacing-lg;
+  }
+}
+
+// Responsive font scaling
+@mixin responsive-font($min-size, $max-size, $min-width: $breakpoint-xs, $max-width: $breakpoint-xl) {
+  font-size: #{$min-size}px;
+  
+  @media (min-width: #{$min-width}) and (max-width: #{$max-width}) {
+    font-size: calc(#{$min-size}px + (#{$max-size} - #{$min-size}) * ((100vw - #{$min-width}) / (#{$max-width} - #{$min-width})));
+  }
+  
+  @media (min-width: #{$max-width}) {
+    font-size: #{$max-size}px;
   }
 }

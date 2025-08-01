@@ -1,4 +1,35 @@
 <div class="users-container container">
+  <!-- Mobile Navigation Header -->
+  <div class="mobile-header d-desktop-none">
+    <h1 class="mobile-title">Users</h1>
+    <div class="mobile-actions">
+      <button
+        mat-icon-button
+        color="primary"
+        (click)="onAddUser()"
+        matTooltip="Add User"
+        matTooltipPosition="below"
+        type="button"
+        aria-label="Add new user"
+        class="mobile-add-btn"
+      >
+        <mat-icon>person_add</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="warn"
+        (click)="onLogout()"
+        matTooltip="Logout"
+        matTooltipPosition="below"
+        type="button"
+        aria-label="Logout"
+        class="mobile-logout-btn"
+      >
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+  </div>
+
   <mat-card>
     <mat-card-header>
       <mat-card-title>User Management</mat-card-title>
@@ -20,10 +51,11 @@
               >Show All Users (including inactive)</span
             >
             <span class="d-tablet-none d-mobile-block">Show All</span>
+            <span class="d-sm-mobile-block d-mobile-none">All Users</span>
           </mat-slide-toggle>
         </div>
 
-        <div class="action-buttons">
+        <div class="action-buttons d-mobile-none">
           <button
             mat-raised-button
             color="primary"
@@ -32,7 +64,8 @@
             type="button"
           >
             <mat-icon>person_add</mat-icon>
-            Add New User
+            <span class="d-tablet-none">Add New User</span>
+            <span class="d-desktop-none d-tablet-block">Add User</span>
           </button>
           <button
             mat-icon-button
@@ -70,8 +103,87 @@
         </button>
       </div>
       } @else {
+      
+      <!-- Mobile Card View -->
+      <div class="mobile-cards d-desktop-none">
+        @for (user of dataSource.data; track user.id) {
+        <mat-card class="user-card" [class.inactive-user]="!user.status">
+          <mat-card-header>
+            <div mat-card-avatar class="user-avatar">
+              <mat-icon>person</mat-icon>
+            </div>
+            <mat-card-title>{{ user.firstName }} {{ user.lastName }}</mat-card-title>
+            <mat-card-subtitle>{{ user.email }}</mat-card-subtitle>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <div class="user-info">
+              <div class="info-item">
+                <span class="info-label">Role:</span>
+                <span class="role-badge" [class]="'role-' + user.role.toLowerCase()">
+                  {{ user.role }}
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Status:</span>
+                <div class="status-container">
+                  <mat-slide-toggle
+                    [checked]="user.status"
+                    (change)="onStatusToggle(user, $event)"
+                    color="primary"
+                    [matTooltip]="
+                      user.status
+                        ? 'Click to deactivate user'
+                        : 'Click to activate user'
+                    "
+                  >
+                  </mat-slide-toggle>
+                  <span
+                    class="status-label"
+                    [ngClass]="user.status ? 'active' : 'inactive'"
+                  >
+                    {{ user.status ? "Active" : "Inactive" }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+          
+          <mat-card-actions align="end">
+            <button
+              mat-button
+              color="accent"
+              (click)="onEditUser(user)"
+              type="button"
+            >
+              <mat-icon>edit</mat-icon>
+              Edit
+            </button>
+            <button
+              mat-button
+              color="warn"
+              (click)="onDeleteUser(user)"
+              type="button"
+            >
+              <mat-icon>delete</mat-icon>
+              Delete
+            </button>
+          </mat-card-actions>
+        </mat-card>
+        }
+        
+        @if (dataSource.data.length === 0) {
+        <div class="empty-state">
+          <mat-icon>person_off</mat-icon>
+          <h3>{{ DISPLAY_MESSAGE.NO_RECORDS }}</h3>
+          <p>No users found matching your criteria.</p>
+        </div>
+        }
+      </div>
+      
+      <!-- Desktop Table View -->
       <div class="table-wrapper">
-        <div class="table-container">
+        <div class="table-container d-mobile-none">
           <table
             mat-table
             [dataSource]="dataSource"
@@ -122,11 +234,11 @@
                 mat-header-cell
                 *matHeaderCellDef
                 mat-sort-header
-                class="header-cell d-mobile-none"
+                class="header-cell d-tablet-none"
               >
                 <span>Email</span>
               </th>
-              <td mat-cell *matCellDef="let user" class="data-cell email-cell">
+              <td mat-cell *matCellDef="let user" class="data-cell email-cell d-tablet-none">
                 {{ user.email }}
               </td>
             </ng-container>
@@ -219,10 +331,12 @@
           </table>
         </div>
 
-        <!-- Empty State -->
+        <!-- Desktop Empty State -->
         @if (dataSource.data.length === 0) {
-        <div class="empty-state">
+        <div class="empty-state d-mobile-none">
+          <mat-icon>person_off</mat-icon>
           <h3>{{ DISPLAY_MESSAGE.NO_RECORDS }}</h3>
+          <p>No users found matching your criteria.</p>
         </div>
         }
       </div>
@@ -230,11 +344,26 @@
     </mat-card-content>
   </mat-card>
 
+  <!-- Pagination -->
   <mat-paginator
     [pageSizeOptions]="[COMMON.PAGE_SIZE_FIVE, COMMON.PAGE_SIZE_TEN]"
     [pageSize]="COMMON.PAGE_SIZE_FIVE"
-    showFirstLastButtons
+    [showFirstLastButtons]="showFirstLastButtons"
     class="table-paginator"
   >
   </mat-paginator>
+  
+  <!-- Floating Action Button for Mobile -->
+  <button
+    mat-fab
+    color="primary"
+    class="fab-add-user d-desktop-none"
+    (click)="onAddUser()"
+    matTooltip="Add New User"
+    matTooltipPosition="above"
+    type="button"
+    aria-label="Add new user"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
 </div>

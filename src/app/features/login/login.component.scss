@@ -1,117 +1,317 @@
 @import "../../styles/variables.scss";
 @import "../../styles/mixin.scss";
 
+.login-wrapper {
+  min-height: 100vh;
+  @include flex-center;
+  padding: $spacing-md;
+  background: linear-gradient(135deg, $info-color 0%, $primary-btn-background-hover 100%);
+  
+  @include small-mobile-only {
+    padding: $spacing-sm;
+  }
+  
+  @include large-up {
+    padding: $spacing-xl;
+  }
+}
+
 .login-form {
   @include flex-column;
   width: 100%;
   max-width: 400px;
-  margin: $spacing-lg auto;
   padding: $spacing-lg;
   background: $background-card;
-  @include border-radius(8);
+  @include border-radius(12);
   @include box-shadow(0, 4px, 20px, $shadow-light);
   @include transition();
+  position: relative;
+  backdrop-filter: blur(10px);
+
+  @include small-mobile-only {
+    padding: $spacing-sm;
+    max-width: none;
+    width: calc(100% - #{$spacing-sm * 2});
+    @include border-radius(6);
+  }
 
   @include mobile-only {
-    margin: $spacing-md;
     padding: $spacing-md;
     max-width: none;
-    min-height: calc(100vh - #{$spacing-xl});
-    justify-content: center;
+    width: calc(100% - #{$spacing-md * 2});
+    @include border-radius(8);
+  }
+
+  @include large-mobile-only {
+    max-width: 450px;
+    padding: $spacing-lg;
   }
 
   @include tablet-up {
     max-width: 500px;
-    margin: $spacing-xxl auto;
     padding: $spacing-xl;
   }
 
   @include desktop-up {
     max-width: 600px;
+    padding: $spacing-xxl;
   }
 
+  @include large-up {
+    max-width: 700px;
+    @include border-radius(12);
+    @include box-shadow(0, 8px, 32px, $shadow-medium);
+  }
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: $spacing-lg;
+  
+  @include small-mobile-only {
+    margin-bottom: $spacing-md;
+  }
+  
+  @include large-up {
+    margin-bottom: $spacing-xl;
+  }
+  
   h1 {
     @include fontSize-lineHeight(24, 32);
     color: $text-primary;
-    margin-bottom: $spacing-lg;
-    text-align: center;
+    margin: 0 0 $spacing-sm 0;
+    font-weight: 600;
+
+    @include small-mobile-only {
+      @include fontSize-lineHeight(18, 24);
+    }
 
     @include mobile-only {
       @include fontSize-lineHeight(20, 28);
-      margin-bottom: $spacing-md;
     }
 
     @include tablet-up {
-      @include fontSize-lineHeight(30, 45);
+      @include fontSize-lineHeight(28, 36);
+    }
+
+    @include large-up {
+      @include fontSize-lineHeight(32, 40);
     }
   }
+  
+  .login-subtitle {
+    @include fontSize-lineHeight(14, 20);
+    color: $text-secondary;
+    margin: 0;
+    
+    @include small-mobile-only {
+      @include fontSize-lineHeight(12, 16);
+    }
+    
+    @include tablet-up {
+      @include fontSize-lineHeight(16, 22);
+    }
+  }
+}
 
+.login-form {
   .mat-mdc-form-field {
     margin-bottom: $spacing-md;
     width: 100%;
+
+    @include small-mobile-only {
+      margin-bottom: $spacing-sm;
+    }
 
     @include mobile-only {
       margin-bottom: $spacing-sm;
     }
 
     @include tablet-up {
-      margin-bottom: 20px;
+      margin-bottom: $spacing-lg;
+    }
+
+    @include large-up {
+      margin-bottom: $spacing-xl;
+    }
+
+    ::ng-deep .mat-mdc-form-field-infix {
+      min-height: $touch-target-min;
+      
+      @include touch-device {
+        min-height: $touch-target-comfortable;
+      }
+    }
+
+    input {
+      @include small-mobile-only {
+        font-size: 16px !important; // Prevents zoom on iOS
+      }
+    }
+    
+    mat-icon[matSuffix] {
+      color: $text-secondary;
+      @include transition(color);
+    }
+    
+    &.mat-focused mat-icon[matSuffix] {
+      color: $input-focus;
     }
   }
 
   .form__options {
     @include flex-between;
+    align-items: center;
     margin: $spacing-md 0;
     gap: $spacing-sm;
 
-    @include mobile-only {
-      flex-direction: column;
-      align-items: stretch;
+    @include small-mobile-only {
+      margin: $spacing-xs 0;
       gap: $spacing-xs;
+    }
+
+    @include mobile-only {
       margin: $spacing-sm 0;
     }
 
-    a {
+    @include large-up {
+      margin: $spacing-lg 0;
+    }
+    
+    .remember-me {
+      // Future implementation for remember me checkbox
+      flex: 1;
+    }
+
+    .forgot-password-link {
       color: $primary-btn-background;
       text-decoration: none;
       @include fontSize-lineHeight(14, 20);
-      @include transition(color);
+      @include transition();
+      cursor: pointer;
+      padding: $spacing-xs;
+      @include border-radius(4);
+      @include touch-friendly-button;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      @include small-mobile-only {
+        @include fontSize-lineHeight(12, 16);
+      }
 
       @include mobile-only {
-        text-align: center;
         @include fontSize-lineHeight(13, 18);
       }
 
-      &:hover {
+      @include large-up {
+        @include fontSize-lineHeight(16, 22);
+      }
+
+      &:hover,
+      &:focus {
         color: $primary-btn-background-hover;
+        background: rgba($primary-btn-background, 0.1);
+        outline: none;
+      }
+
+      &:focus {
+        @extend .focus-visible;
       }
     }
   }
 
-  .btn {
+  .login-btn {
     width: 100%;
     margin-top: $spacing-md;
     @include transition();
+    @include touch-friendly-button;
+    font-weight: 600;
+    @include fontSize-lineHeight(16, 22);
+    @include border-radius(8);
+    position: relative;
+    overflow: hidden;
+
+    @include small-mobile-only {
+      margin-top: $spacing-xs;
+      min-height: $touch-target-large;
+      @include fontSize-lineHeight(14, 20);
+    }
 
     @include mobile-only {
       margin-top: $spacing-sm;
-      min-height: 48px;
+      min-height: $touch-target-comfortable;
+      @include fontSize-lineHeight(15, 21);
+    }
+
+    @include large-up {
+      margin-top: $spacing-lg;
+      min-height: $touch-target-large;
+      @include fontSize-lineHeight(18, 24);
+      @include border-radius(12);
+    }
+
+    mat-icon {
+      margin-right: $spacing-sm;
+      @include fontSize-lineHeight(18, 18);
+      
+      @include small-mobile-only {
+        @include fontSize-lineHeight(16, 16);
+        margin-right: $spacing-xs;
+      }
+    }
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    &:not(:disabled) {
+      &:hover {
+        @include transform(translateY(-1px));
+        @include box-shadow(0, 4px, 12px, $shadow-medium);
+      }
+      
+      &:active {
+        @include transform(translateY(0));
+      }
     }
   }
 }
 
-// Full screen mobile layout
-@include mobile-only {
-  :host {
-    display: block;
-    min-height: 100vh;
-    background: linear-gradient(135deg, $info-color 0%, $primary-btn-background-hover 100%);
-    padding: $spacing-md;
-    @include flex-center;
-  }
-
-  mat-grid-list {
-    width: 100%;
-    height: 100%;
+// Landscape orientation adjustments for mobile
+@include landscape {
+  @include mobile-only {
+    .login-wrapper {
+      padding: $spacing-sm;
+      min-height: 100vh;
+    }
+    
+    .login-form {
+      padding: $spacing-md;
+      max-height: 90vh;
+      overflow-y: auto;
+      
+      .login-header {
+        margin-bottom: $spacing-sm;
+        
+        h1 {
+          margin-bottom: $spacing-xs;
+        }
+      }
+      
+      .mat-mdc-form-field {
+        margin-bottom: $spacing-xs;
+      }
+      
+      .form__options {
+        margin: $spacing-xs 0;
+      }
+      
+      .login-btn {
+        margin-top: $spacing-xs;
+      }
+    }
   }
 }

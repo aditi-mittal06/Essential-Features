@@ -1,9 +1,21 @@
-<mat-grid-list cols="1">
+<div class="login-wrapper">
   <form class="login-form" [formGroup]="logInForm">
-    <h1>login</h1>
-    <mat-form-field class="example-full-width">
+    <div class="login-header">
+      <h1>Welcome Back</h1>
+      <p class="login-subtitle">Sign in to your account</p>
+    </div>
+    
+    <mat-form-field class="full-width" appearance="outline">
       <mat-label>Email Address</mat-label>
-      <input matInput placeholder="Email address" formControlName="email" />
+      <input 
+        matInput 
+        type="email"
+        placeholder="Enter your email address" 
+        formControlName="email"
+        autocomplete="email"
+        inputmode="email"
+      />
+      <mat-icon matSuffix>email</mat-icon>
       @if(formControl['email'].errors){
       <mat-error>
         @if(formControl['email'].errors['required']){
@@ -17,14 +29,15 @@
       >
       }
     </mat-form-field>
-    <mat-form-field class="example-full-width">
+    
+    <mat-form-field class="full-width" appearance="outline">
       <mat-label>Password</mat-label>
       <input
         matInput
         [type]="hidePassword ? 'password' : 'text'"
-        placeholder="Password"
+        placeholder="Enter your password"
         formControlName="password"
-        id="password"
+        autocomplete="current-password"
       />
       <button
         type="button"
@@ -44,13 +57,33 @@
         <label>This field is required.</label>} </mat-error
       >}
     </mat-form-field>
+    
     <div class="form__options">
-      <div></div>
-      <a (click)="onForgotPasswordClick()">Forgot Password?</a>
+      <div class="remember-me">
+        <!-- Future: Remember me checkbox -->
+      </div>
+      <a 
+        class="forgot-password-link" 
+        (click)="onForgotPasswordClick()"
+        (keydown.enter)="onForgotPasswordClick()"
+        tabindex="0"
+        role="button"
+        aria-label="Reset your password"
+      >
+        Forgot Password?
+      </a>
     </div>
 
-    <button type="submit" class="btn btn-primary" (click)="onLogInClick()">
-      Login
+    <button 
+      type="submit" 
+      class="login-btn" 
+      mat-raised-button 
+      color="primary"
+      (click)="onLogInClick()"
+      [disabled]="!logInForm.valid"
+    >
+      <mat-icon>login</mat-icon>
+      <span>Sign In</span>
     </button>
   </form>
-</mat-grid-list>
+</div>

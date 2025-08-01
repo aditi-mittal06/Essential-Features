@@ -4,23 +4,55 @@
 .users-container {
   @include container;
   padding: $spacing-md;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  @include small-mobile-only {
+    padding: $spacing-xs;
+    min-height: calc(100vh - 60px);
+  }
+
+  @include large-mobile-only {
+    padding: $spacing-sm;
+  }
 
   @include tablet-up {
     padding: $spacing-lg;
+  }
+
+  @include large-up {
+    padding: $spacing-xl;
+    max-width: 1400px;
+    margin: 0 auto;
   }
 }
 
 // Card Styling
 mat-card {
   margin-bottom: $spacing-lg;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   @include box-shadow(0, 4px, 20px, $shadow-light);
   @include border-radius(12);
   overflow: hidden;
   @include transition();
 
+  @include small-mobile-only {
+    margin-bottom: $spacing-sm;
+    @include border-radius(8);
+    @include box-shadow(0, 2px, 12px, $shadow-light);
+  }
+
   @include mobile-only {
     margin-bottom: $spacing-md;
     @include border-radius(8);
+  }
+
+  @include large-up {
+    @include border-radius(16);
+    @include box-shadow(0, 6px, 24px, $shadow-light);
   }
 }
 
@@ -28,9 +60,18 @@ mat-card-header {
   padding: $spacing-lg $spacing-lg $spacing-md;
   background: linear-gradient(135deg, $info-color 0%, #764ba2 100%);
   color: $color-white;
+  flex-shrink: 0;
+
+  @include small-mobile-only {
+    padding: $spacing-sm;
+  }
 
   @include mobile-only {
     padding: $spacing-md;
+  }
+
+  @include large-up {
+    padding: $spacing-xl $spacing-xl $spacing-lg;
   }
 
   mat-card-title {
@@ -39,6 +80,10 @@ mat-card-header {
     margin: 0;
     color: $color-white;
 
+    @include small-mobile-only {
+      @include fontSize-lineHeight(16, 22);
+    }
+
     @include mobile-only {
       @include fontSize-lineHeight(18, 24);
     }
@@ -46,12 +91,21 @@ mat-card-header {
     @include tablet-up {
       @include fontSize-lineHeight(24, 32);
     }
+
+    @include large-up {
+      @include fontSize-lineHeight(28, 36);
+    }
   }
 
   mat-card-subtitle {
     @include fontSize-lineHeight(13, 18);
     color: rgba($color-white, 0.8);
     margin-top: $spacing-sm;
+
+    @include small-mobile-only {
+      @include fontSize-lineHeight(11, 15);
+      margin-top: $spacing-xs;
+    }
 
     @include mobile-only {
       @include fontSize-lineHeight(12, 16);
@@ -61,11 +115,18 @@ mat-card-header {
     @include tablet-up {
       @include fontSize-lineHeight(14, 20);
     }
+
+    @include large-up {
+      @include fontSize-lineHeight(16, 22);
+    }
   }
 }
 
 mat-card-content {
   padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 // Action Bar
@@ -75,6 +136,15 @@ mat-card-content {
   background: $background-light;
   border-bottom: 1px solid $divider-color;
   gap: $spacing-md;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+
+  @include small-mobile-only {
+    @include flex-column;
+    align-items: stretch;
+    padding: $spacing-sm;
+    gap: $spacing-xs;
+  }
 
   @include mobile-only {
     @include flex-column;
@@ -83,13 +153,28 @@ mat-card-content {
     gap: $spacing-sm;
   }
 
-  @include tablet-only {
+  @include large-mobile-only {
     flex-wrap: wrap;
     gap: $spacing-sm;
+    padding: $spacing-md;
+  }
+
+  @include tablet-only {
+    padding: $spacing-lg;
+    gap: $spacing-md;
+  }
+
+  @include large-up {
+    padding: $spacing-xl;
+    gap: $spacing-lg;
   }
 }
 
 .filter-section {
+  @include small-mobile-only {
+    order: 2;
+  }
+
   @include mobile-only {
     order: 2;
   }
@@ -98,8 +183,16 @@ mat-card-content {
     @include fontSize-lineHeight(14, 20);
     font-weight: 500;
 
+    @include small-mobile-only {
+      @include fontSize-lineHeight(12, 16);
+    }
+
     @include mobile-only {
       @include fontSize-lineHeight(13, 18);
+    }
+
+    @include large-up {
+      @include fontSize-lineHeight(16, 22);
     }
 
     ::ng-deep .mat-slide-toggle-label {
@@ -112,9 +205,19 @@ mat-card-content {
   display: flex;
   gap: $spacing-sm;
 
+  @include small-mobile-only {
+    order: 1;
+    justify-content: center;
+    flex-direction: column;
+  }
+
   @include mobile-only {
     order: 1;
     justify-content: center;
+  }
+
+  @include large-up {
+    gap: $spacing-md;
   }
 }
 
@@ -124,6 +227,14 @@ mat-card-content {
   @include border-radius(8);
   @include box-shadow(0, 2px, 8px, $shadow-medium);
   @include transition();
+  min-width: 140px;
+
+  @include small-mobile-only {
+    height: 48px;
+    @include fontSize-lineHeight(13, 18);
+    width: 100%;
+    min-width: auto;
+  }
 
   @include mobile-only {
     height: 40px;
@@ -131,8 +242,18 @@ mat-card-content {
     flex: 1;
   }
 
+  @include large-up {
+    height: 48px;
+    @include fontSize-lineHeight(16, 22);
+    min-width: 160px;
+  }
+
   mat-icon {
     margin-right: $spacing-sm;
+
+    @include small-mobile-only {
+      margin-right: $spacing-xs;
+    }
 
     @include mobile-only {
       margin-right: $spacing-xs;
@@ -145,6 +266,23 @@ mat-card-content {
   }
 }
 
+.logout-btn {
+  @include small-mobile-only {
+    width: 100%;
+    height: 48px;
+    @include border-radius(8);
+    
+    mat-icon {
+      margin-right: $spacing-xs;
+    }
+    
+    &::after {
+      content: 'Logout';
+      margin-left: $spacing-xs;
+    }
+  }
+}
+
 // Loading / Error Sections
 .loading-container,
 .error-container {
@@ -152,18 +290,37 @@ mat-card-content {
   @include flex-center;
   padding: $spacing-xxl $spacing-lg;
   text-align: center;
+  flex: 1;
+
+  @include small-mobile-only {
+    padding: $spacing-lg $spacing-sm;
+  }
 
   @include mobile-only {
     padding: $spacing-xl $spacing-md;
+  }
+
+  @include large-up {
+    padding: $spacing-xxl * 1.5 $spacing-xl;
   }
 
   mat-icon {
     @include fontSize-lineHeight(48, 48);
     margin-bottom: $spacing-lg;
 
+    @include small-mobile-only {
+      @include fontSize-lineHeight(32, 32);
+      margin-bottom: $spacing-sm;
+    }
+
     @include mobile-only {
       @include fontSize-lineHeight(36, 36);
       margin-bottom: $spacing-md;
+    }
+
+    @include large-up {
+      @include fontSize-lineHeight(64, 64);
+      margin-bottom: $spacing-xl;
     }
   }
 
@@ -171,16 +328,34 @@ mat-card-content {
     color: $text-secondary;
     @include fontSize-lineHeight(16, 24);
     margin-bottom: $spacing-lg;
+    max-width: 400px;
+
+    @include small-mobile-only {
+      @include fontSize-lineHeight(13, 18);
+      margin-bottom: $spacing-sm;
+      max-width: 280px;
+    }
 
     @include mobile-only {
       @include fontSize-lineHeight(14, 20);
       margin-bottom: $spacing-md;
+      max-width: 320px;
+    }
+
+    @include large-up {
+      @include fontSize-lineHeight(18, 26);
+      max-width: 500px;
     }
   }
 
   button mat-icon {
     @include fontSize-lineHeight(18, 18);
     margin-right: $spacing-sm;
+
+    @include small-mobile-only {
+      @include fontSize-lineHeight(14, 14);
+      margin-right: $spacing-xs;
+    }
 
     @include mobile-only {
       @include fontSize-lineHeight(16, 16);
@@ -193,19 +368,35 @@ mat-card-content {
 .table-wrapper {
   position: relative;
   overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .table-container {
   overflow-x: auto;
   overflow-y: visible;
   max-height: 70vh;
+  flex: 1;
+
+  @include small-mobile-only {
+    max-height: 50vh;
+  }
 
   @include mobile-only {
     max-height: 60vh;
   }
 
+  @include large-up {
+    max-height: 75vh;
+  }
+
   &::-webkit-scrollbar {
     height: 8px;
+
+    @include small-mobile-only {
+      height: 3px;
+    }
 
     @include mobile-only {
       height: 4px;
@@ -235,12 +426,20 @@ mat-card-content {
   border-collapse: separate;
   border-spacing: 0;
 
+  @include small-mobile-only {
+    min-width: 400px;
+  }
+
   @include mobile-only {
     min-width: 500px;
   }
 
   @include tablet-up {
     min-width: 800px;
+  }
+
+  @include large-up {
+    min-width: 1000px;
   }
 
   .table-header-row {
@@ -255,6 +454,11 @@ mat-card-content {
       @include fontSize-lineHeight(12, 18);
       padding: $spacing-sm;
 
+      @include small-mobile-only {
+        @include fontSize-lineHeight(10, 14);
+        padding: $spacing-xs;
+      }
+
       @include mobile-only {
         @include fontSize-lineHeight(11, 16);
         padding: $spacing-xs;
@@ -265,9 +469,18 @@ mat-card-content {
         padding: $spacing-md;
       }
 
+      @include large-up {
+        @include fontSize-lineHeight(16, 22);
+        padding: $spacing-lg;
+      }
+
       .header-content {
         @include flex-center;
         gap: $spacing-sm;
+
+        @include small-mobile-only {
+          gap: 2px;
+        }
 
         @include mobile-only {
           gap: $spacing-xs;
@@ -275,6 +488,10 @@ mat-card-content {
 
         .header-icon {
           @include fontSize-lineHeight(16, 16);
+
+          @include small-mobile-only {
+            @include fontSize-lineHeight(12, 12);
+          }
 
           @include mobile-only {
             @include fontSize-lineHeight(14, 14);
@@ -295,6 +512,15 @@ mat-card-content {
   .table-data-row {
     @include transition(background-color);
     border-bottom: 1px solid $divider-color;
+    min-height: 56px;
+
+    @include small-mobile-only {
+      min-height: 48px;
+    }
+
+    @include touch-device {
+      min-height: 60px;
+    }
 
     &:hover {
       background-color: $background-light;
@@ -312,6 +538,11 @@ mat-card-content {
       padding: $spacing-sm;
       vertical-align: middle;
 
+      @include small-mobile-only {
+        padding: $spacing-xs;
+        min-height: 48px;
+      }
+
       @include mobile-only {
         padding: $spacing-xs;
         min-height: 44px;
@@ -319,6 +550,10 @@ mat-card-content {
 
       @include tablet-up {
         padding: $spacing-md;
+      }
+
+      @include large-up {
+        padding: $spacing-lg;
       }
     }
   }
@@ -331,6 +566,10 @@ mat-card-content {
   color: $text-primary;
   @include fontSize-lineHeight(13, 18);
 
+  @include small-mobile-only {
+    @include fontSize-lineHeight(11, 15);
+  }
+
   @include mobile-only {
     @include fontSize-lineHeight(12, 16);
   }
@@ -338,12 +577,21 @@ mat-card-content {
   @include tablet-up {
     @include fontSize-lineHeight(14, 20);
   }
+
+  @include large-up {
+    @include fontSize-lineHeight(16, 22);
+  }
 }
 
 .email-cell {
   color: $text-secondary;
   @include fontSize-lineHeight(12, 16);
   word-break: break-word;
+
+  @include small-mobile-only {
+    @include fontSize-lineHeight(10, 13);
+    display: none;
+  }
 
   @include mobile-only {
     @include fontSize-lineHeight(11, 14);
@@ -353,6 +601,10 @@ mat-card-content {
   @include tablet-up {
     @include fontSize-lineHeight(13, 18);
     display: table-cell;
+  }
+
+  @include large-up {
+    @include fontSize-lineHeight(14, 20);
   }
 }
 
@@ -364,9 +616,19 @@ mat-card-content {
     @include border-radius(12);
     background: $background-light;
 
+    @include small-mobile-only {
+      @include fontSize-lineHeight(9, 12);
+      padding: 1px $spacing-xs;
+    }
+
     @include mobile-only {
       @include fontSize-lineHeight(10, 14);
       padding: 2px $spacing-xs;
+    }
+
+    @include large-up {
+      @include fontSize-lineHeight(14, 18);
+      padding: $spacing-sm $spacing-md;
     }
   }
 }
@@ -375,6 +637,11 @@ mat-card-content {
   .status-container {
     @include flex-center;
     gap: $spacing-sm;
+
+    @include small-mobile-only {
+      @include flex-column;
+      gap: 2px;
+    }
 
     @include mobile-only {
       @include flex-column;
@@ -386,8 +653,16 @@ mat-card-content {
       font-weight: 600;
       text-transform: uppercase;
 
+      @include small-mobile-only {
+        @include fontSize-lineHeight(8, 11);
+      }
+
       @include mobile-only {
         @include fontSize-lineHeight(9, 12);
+      }
+
+      @include large-up {
+        @include fontSize-lineHeight(12, 16);
       }
 
       &.active {
@@ -407,6 +682,11 @@ mat-card-content {
     gap: $spacing-xs;
     justify-content: center;
 
+    @include small-mobile-only {
+      @include flex-column;
+      gap: 1px;
+    }
+
     @include mobile-only {
       @include flex-column;
       gap: 2px;
@@ -418,17 +698,41 @@ mat-card-content {
       @include flex-center;
       @include border-radius(50);
       @include transition();
+      min-width: 44px; // Touch-friendly minimum
+      min-height: 44px;
+
+      @include small-mobile-only {
+        width: 36px;
+        height: 36px;
+        min-width: 44px;
+        min-height: 44px;
+      }
 
       @include mobile-only {
         width: 28px;
         height: 28px;
+        min-width: 44px;
+        min-height: 44px;
+      }
+
+      @include large-up {
+        width: 36px;
+        height: 36px;
       }
 
       mat-icon {
         @include fontSize-lineHeight(16, 16);
 
+        @include small-mobile-only {
+          @include fontSize-lineHeight(18, 18);
+        }
+
         @include mobile-only {
           @include fontSize-lineHeight(14, 14);
+        }
+
+        @include large-up {
+          @include fontSize-lineHeight(18, 18);
         }
       }
 
@@ -447,6 +751,11 @@ mat-card-content {
   padding: $spacing-xxl $spacing-lg;
   text-align: center;
   background: $background-light;
+  flex: 1;
+
+  @include small-mobile-only {
+    padding: $spacing-lg $spacing-sm;
+  }
 
   @include mobile-only {
     padding: $spacing-xl $spacing-md;
@@ -456,6 +765,11 @@ mat-card-content {
     @include fontSize-lineHeight(48, 48);
     color: $text-disabled;
     margin-bottom: $spacing-lg;
+
+    @include small-mobile-only {
+      @include fontSize-lineHeight(32, 32);
+      margin-bottom: $spacing-sm;
+    }
 
     @include mobile-only {
       @include fontSize-lineHeight(36, 36);
@@ -468,6 +782,10 @@ mat-card-content {
     @include fontSize-lineHeight(18, 24);
     font-weight: 500;
     margin-bottom: $spacing-sm;
+
+    @include small-mobile-only {
+      @include fontSize-lineHeight(14, 20);
+    }
 
     @include mobile-only {
       @include fontSize-lineHeight(16, 22);
@@ -483,6 +801,11 @@ mat-card-content {
     @include fontSize-lineHeight(14, 20);
     margin-bottom: $spacing-lg;
 
+    @include small-mobile-only {
+      @include fontSize-lineHeight(12, 16);
+      margin-bottom: $spacing-sm;
+    }
+
     @include mobile-only {
       @include fontSize-lineHeight(13, 18);
       margin-bottom: $spacing-md;
@@ -497,6 +820,10 @@ mat-card-content {
     margin-right: $spacing-sm;
     @include fontSize-lineHeight(16, 16);
 
+    @include small-mobile-only {
+      margin-right: $spacing-xs;
+    }
+
     @include mobile-only {
       margin-right: $spacing-xs;
     }
@@ -507,31 +834,72 @@ mat-card-content {
 .table-paginator {
   background: $background-light;
   border-top: 1px solid $divider-color;
+  flex-shrink: 0;
 
   ::ng-deep .mat-mdc-paginator-container {
     padding: $spacing-md $spacing-lg;
     min-height: 56px;
 
+    @include small-mobile-only {
+      padding: $spacing-xs $spacing-sm;
+      min-height: 48px;
+    }
+
     @include mobile-only {
       padding: $spacing-sm $spacing-md;
       min-height: 48px;
     }
+
+    @include large-up {
+      padding: $spacing-lg $spacing-xl;
+      min-height: 64px;
+    }
   }
 
   ::ng-deep .mat-mdc-paginator-page-size {
+    @include small-mobile-only {
+      display: none;
+    }
+
     @include mobile-only {
       display: none;
     }
   }
 
   ::ng-deep .mat-mdc-paginator-range-label {
+    @include small-mobile-only {
+      @include fontSize-lineHeight(11, 14);
+    }
+
     @include mobile-only {
       @include fontSize-lineHeight(12, 16);
+    }
+  }
+
+  // Make pagination buttons touch-friendly
+  ::ng-deep .mat-mdc-paginator-navigation-previous,
+  ::ng-deep .mat-mdc-paginator-navigation-next,
+  ::ng-deep .mat-mdc-paginator-navigation-first,
+  ::ng-deep .mat-mdc-paginator-navigation-last {
+    @include touch-device {
+      min-width: 44px;
+      min-height: 44px;
     }
   }
 }
 
 // Hide columns on mobile
+@include small-mobile-only {
+  .users-table {
+    .email-cell,
+    th:nth-child(3),
+    .role-cell,
+    th:nth-child(4) {
+      display: none;
+    }
+  }
+}
+
 @include mobile-only {
   .users-table {
     .email-cell,
@@ -542,7 +910,7 @@ mat-card-content {
 }
 
 // Responsive table adjustments
-@include tablet-only {
+@include large-mobile-only {
   .users-table {
     .actions-container {
       gap: 2px;
@@ -550,11 +918,48 @@ mat-card-content {
       button {
         width: 30px;
         height: 30px;
+        min-width: 44px;
+        min-height: 44px;
 
         mat-icon {
           @include fontSize-lineHeight(15, 15);
         }
       }
     }
+  }
+}
+
+// Landscape orientation adjustments
+@include landscape {
+  @include mobile-only {
+    .users-container {
+      padding: $spacing-sm;
+    }
+    
+    .table-container {
+      max-height: 40vh;
+    }
+    
+    .action-bar {
+      flex-direction: row;
+      align-items: center;
+      padding: $spacing-sm;
+    }
+    
+    .action-buttons {
+      flex-direction: row;
+    }
+  }
+}
+
+// High DPI adjustments
+@include retina {
+  .users-table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+  mat-card {
+    @include box-shadow(0, 2px, 16px, rgba($shadow-light, 0.8));
   }
 }
