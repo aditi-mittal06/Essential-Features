@@ -1,0 +1,186 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "./app/styles/variables.scss";
+@import "./app/styles/mixin.scss";
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  overflow-x: hidden;
+  color: $text-primary;
+  background-color: $background-light;
+}
+
+// Base responsive styles
+* {
+  box-sizing: border-box;
+}
+
+// Container utility
+.container {
+  @include container;
+}
+
+// Responsive utilities
+.d-none {
+  display: none !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+@include mobile-only {
+  .d-mobile-none {
+    display: none !important;
+  }
+  .d-mobile-block {
+    display: block !important;
+  }
+  .d-mobile-flex {
+    display: flex !important;
+  }
+}
+
+@include tablet-up {
+  .d-tablet-none {
+    display: none !important;
+  }
+  .d-tablet-block {
+    display: block !important;
+  }
+  .d-tablet-flex {
+    display: flex !important;
+  }
+}
+
+@include desktop-up {
+  .d-desktop-none {
+    display: none !important;
+  }
+  .d-desktop-block {
+    display: block !important;
+  }
+  .d-desktop-flex {
+    display: flex !important;
+  }
+}
+
+.btn {
+  padding: 0 $spacing-md;
+  position: relative;
+  @include flex-center;
+  box-sizing: border-box;
+  min-width: 64px;
+  border: none;
+  outline: none;
+  line-height: inherit;
+  -webkit-appearance: none;
+  overflow: visible;
+  vertical-align: middle;
+  @include transition(box-shadow, 280ms, cubic-bezier(0.4, 0, 0.2, 1));
+  min-height: 44px;
+  border-radius: 3px;
+  cursor: pointer;
+  @include fontSize-lineHeight(18, 25);
+
+  @include mobile-only {
+    min-height: 40px;
+    @include fontSize-lineHeight(16, 22);
+    padding: 0 $spacing-sm;
+  }
+
+  &.btn--primary {
+    background: $primary-btn-background;
+    color: $color-white;
+    @include button-hover($primary-btn-background);
+
+    &:disabled {
+      background: $button-disabled;
+      color: $button-disabled-text;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.mat-mdc-snack-bar-container {
+  &.global-error {
+    .mdc-snackbar__surface {
+      background-color: $error-color;
+      border-radius: 25px;
+      @include box-shadow(0, 3px, 6px, $shadow-medium);
+
+      @include mobile-only {
+        border-radius: 15px;
+      }
+
+      .mdc-snackbar__label {
+        color: $color-white;
+        font-family: $global-fonts;
+      }
+    }
+  }
+  &.global-success {
+    .mdc-snackbar__surface {
+      background-color: $success-color;
+      border-radius: 25px;
+      @include box-shadow(0, 3px, 6px, $shadow-medium);
+
+      @include mobile-only {
+        border-radius: 15px;
+      }
+
+      .mdc-snackbar__label {
+        color: $color-white;
+        font-family: $global-fonts;
+      }
+    }
+  }
+  .mdc-snackbar__action {
+    color: $color-white !important;
+    min-width: 40px;
+  }
+}
+
+// Global form styling
+.mat-mdc-form-field {
+  .mat-mdc-form-field-outline {
+    color: $input-border;
+  }
+
+  &.mat-focused .mat-mdc-form-field-outline-thick {
+    color: $input-focus;
+  }
+
+  &.mat-form-field-invalid .mat-mdc-form-field-outline-thick {
+    color: $input-error;
+  }
+}
+
+// Global loading spinner
+.mat-mdc-progress-spinner {
+  circle {
+    stroke: $primary-btn-background;
+  }
+}
+
+// Global table styling
+.mat-mdc-table {
+  background: $background-card;
+
+  .mat-mdc-header-row {
+    background: $background-light;
+  }
+
+  .mat-mdc-row:hover {
+    background: $background-light;
+  }
+}

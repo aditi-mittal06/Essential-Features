@@ -1,0 +1,560 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixin.scss";
+
+.users-container {
+  @include container;
+  padding: $spacing-md;
+
+  @include tablet-up {
+    padding: $spacing-lg;
+  }
+}
+
+// Card Styling
+mat-card {
+  margin-bottom: $spacing-lg;
+  @include box-shadow(0, 4px, 20px, $shadow-light);
+  @include border-radius(12);
+  overflow: hidden;
+  @include transition();
+
+  @include mobile-only {
+    margin-bottom: $spacing-md;
+    @include border-radius(8);
+  }
+}
+
+mat-card-header {
+  padding: $spacing-lg $spacing-lg $spacing-md;
+  background: linear-gradient(135deg, $info-color 0%, #764ba2 100%);
+  color: $color-white;
+
+  @include mobile-only {
+    padding: $spacing-md;
+  }
+
+  mat-card-title {
+    @include fontSize-lineHeight(20, 28);
+    font-weight: 600;
+    margin: 0;
+    color: $color-white;
+
+    @include mobile-only {
+      @include fontSize-lineHeight(18, 24);
+    }
+
+    @include tablet-up {
+      @include fontSize-lineHeight(24, 32);
+    }
+  }
+
+  mat-card-subtitle {
+    @include fontSize-lineHeight(13, 18);
+    color: rgba($color-white, 0.8);
+    margin-top: $spacing-sm;
+
+    @include mobile-only {
+      @include fontSize-lineHeight(12, 16);
+      margin-top: $spacing-xs;
+    }
+
+    @include tablet-up {
+      @include fontSize-lineHeight(14, 20);
+    }
+  }
+}
+
+mat-card-content {
+  padding: 0;
+}
+
+// Action Bar
+.action-bar {
+  @include flex-between;
+  padding: $spacing-lg;
+  background: $background-light;
+  border-bottom: 1px solid $divider-color;
+  gap: $spacing-md;
+
+  @include mobile-only {
+    @include flex-column;
+    align-items: stretch;
+    padding: $spacing-md;
+    gap: $spacing-sm;
+  }
+
+  @include tablet-only {
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+  }
+}
+
+.filter-section {
+  @include mobile-only {
+    order: 2;
+  }
+
+  mat-slide-toggle {
+    @include fontSize-lineHeight(14, 20);
+    font-weight: 500;
+
+    @include mobile-only {
+      @include fontSize-lineHeight(13, 18);
+    }
+
+    ::ng-deep .mat-slide-toggle-label {
+      color: $text-primary;
+    }
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: $spacing-sm;
+
+  @include mobile-only {
+    order: 1;
+    justify-content: center;
+  }
+}
+
+.add-user-btn {
+  height: 44px;
+  font-weight: 500;
+  @include border-radius(8);
+  @include box-shadow(0, 2px, 8px, $shadow-medium);
+  @include transition();
+
+  @include mobile-only {
+    height: 40px;
+    @include fontSize-lineHeight(14, 20);
+    flex: 1;
+  }
+
+  mat-icon {
+    margin-right: $spacing-sm;
+
+    @include mobile-only {
+      margin-right: $spacing-xs;
+    }
+  }
+
+  &:hover {
+    @include transform(translateY(-1px));
+    @include box-shadow(0, 4px, 12px, $shadow-medium);
+  }
+}
+
+// Loading / Error Sections
+.loading-container,
+.error-container {
+  @include flex-column;
+  @include flex-center;
+  padding: $spacing-xxl $spacing-lg;
+  text-align: center;
+
+  @include mobile-only {
+    padding: $spacing-xl $spacing-md;
+  }
+
+  mat-icon {
+    @include fontSize-lineHeight(48, 48);
+    margin-bottom: $spacing-lg;
+
+    @include mobile-only {
+      @include fontSize-lineHeight(36, 36);
+      margin-bottom: $spacing-md;
+    }
+  }
+
+  p {
+    color: $text-secondary;
+    @include fontSize-lineHeight(16, 24);
+    margin-bottom: $spacing-lg;
+
+    @include mobile-only {
+      @include fontSize-lineHeight(14, 20);
+      margin-bottom: $spacing-md;
+    }
+  }
+
+  button mat-icon {
+    @include fontSize-lineHeight(18, 18);
+    margin-right: $spacing-sm;
+
+    @include mobile-only {
+      @include fontSize-lineHeight(16, 16);
+      margin-right: $spacing-xs;
+    }
+  }
+}
+
+// Table Styles
+.table-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.table-container {
+  overflow-x: auto;
+  overflow-y: visible;
+  max-height: 70vh;
+
+  @include mobile-only {
+    max-height: 60vh;
+  }
+
+  &::-webkit-scrollbar {
+    height: 8px;
+
+    @include mobile-only {
+      height: 4px;
+    }
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $background-light;
+    @include border-radius(4);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $text-disabled;
+    @include border-radius(4);
+
+    &:hover {
+      background: $text-secondary;
+    }
+  }
+}
+
+// Table Structure
+.users-table {
+  width: 100%;
+  min-width: 600px;
+  background: $background-card;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  @include mobile-only {
+    min-width: 500px;
+  }
+
+  @include tablet-up {
+    min-width: 800px;
+  }
+
+  .table-header-row {
+    background: linear-gradient(135deg, $info-color 0%, #764ba2 100%);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    .header-cell {
+      color: $color-white;
+      font-weight: 600;
+      @include fontSize-lineHeight(12, 18);
+      padding: $spacing-sm;
+
+      @include mobile-only {
+        @include fontSize-lineHeight(11, 16);
+        padding: $spacing-xs;
+      }
+
+      @include tablet-up {
+        @include fontSize-lineHeight(14, 20);
+        padding: $spacing-md;
+      }
+
+      .header-content {
+        @include flex-center;
+        gap: $spacing-sm;
+
+        @include mobile-only {
+          gap: $spacing-xs;
+        }
+
+        .header-icon {
+          @include fontSize-lineHeight(16, 16);
+
+          @include mobile-only {
+            @include fontSize-lineHeight(14, 14);
+          }
+
+          @include tablet-up {
+            @include fontSize-lineHeight(18, 18);
+          }
+        }
+      }
+
+      ::ng-deep .mat-sort-header-arrow {
+        color: $color-white;
+      }
+    }
+  }
+
+  .table-data-row {
+    @include transition(background-color);
+    border-bottom: 1px solid $divider-color;
+
+    &:hover {
+      background-color: $background-light;
+    }
+
+    &:nth-child(even) {
+      background-color: rgba($text-primary, 0.02);
+
+      &:hover {
+        background-color: rgba($text-primary, 0.06);
+      }
+    }
+
+    .data-cell {
+      padding: $spacing-sm;
+      vertical-align: middle;
+
+      @include mobile-only {
+        padding: $spacing-xs;
+        min-height: 44px;
+      }
+
+      @include tablet-up {
+        padding: $spacing-md;
+      }
+    }
+  }
+}
+
+// Column Styling
+.first-name-cell,
+.last-name-cell {
+  font-weight: 500;
+  color: $text-primary;
+  @include fontSize-lineHeight(13, 18);
+
+  @include mobile-only {
+    @include fontSize-lineHeight(12, 16);
+  }
+
+  @include tablet-up {
+    @include fontSize-lineHeight(14, 20);
+  }
+}
+
+.email-cell {
+  color: $text-secondary;
+  @include fontSize-lineHeight(12, 16);
+  word-break: break-word;
+
+  @include mobile-only {
+    @include fontSize-lineHeight(11, 14);
+    display: none; // Hide email on mobile to save space
+  }
+
+  @include tablet-up {
+    @include fontSize-lineHeight(13, 18);
+    display: table-cell;
+  }
+}
+
+.role-cell {
+  .role-text {
+    @include fontSize-lineHeight(12, 16);
+    font-weight: 600;
+    padding: $spacing-xs $spacing-sm;
+    @include border-radius(12);
+    background: $background-light;
+
+    @include mobile-only {
+      @include fontSize-lineHeight(10, 14);
+      padding: 2px $spacing-xs;
+    }
+  }
+}
+
+.status-cell {
+  .status-container {
+    @include flex-center;
+    gap: $spacing-sm;
+
+    @include mobile-only {
+      @include flex-column;
+      gap: $spacing-xs;
+    }
+
+    .status-label {
+      @include fontSize-lineHeight(11, 14);
+      font-weight: 600;
+      text-transform: uppercase;
+
+      @include mobile-only {
+        @include fontSize-lineHeight(9, 12);
+      }
+
+      &.active {
+        color: $success-color;
+      }
+
+      &.inactive {
+        color: $error-color;
+      }
+    }
+  }
+}
+
+.actions-cell {
+  .actions-container {
+    display: flex;
+    gap: $spacing-xs;
+    justify-content: center;
+
+    @include mobile-only {
+      @include flex-column;
+      gap: 2px;
+    }
+
+    button {
+      width: 32px;
+      height: 32px;
+      @include flex-center;
+      @include border-radius(50);
+      @include transition();
+
+      @include mobile-only {
+        width: 28px;
+        height: 28px;
+      }
+
+      mat-icon {
+        @include fontSize-lineHeight(16, 16);
+
+        @include mobile-only {
+          @include fontSize-lineHeight(14, 14);
+        }
+      }
+
+      &:hover {
+        @include transform(scale(1.1));
+        @include box-shadow(0, 2px, 8px, $shadow-medium);
+      }
+    }
+  }
+}
+
+// Empty State
+.empty-state {
+  @include flex-column;
+  @include flex-center;
+  padding: $spacing-xxl $spacing-lg;
+  text-align: center;
+  background: $background-light;
+
+  @include mobile-only {
+    padding: $spacing-xl $spacing-md;
+  }
+
+  mat-icon {
+    @include fontSize-lineHeight(48, 48);
+    color: $text-disabled;
+    margin-bottom: $spacing-lg;
+
+    @include mobile-only {
+      @include fontSize-lineHeight(36, 36);
+      margin-bottom: $spacing-md;
+    }
+  }
+
+  h3 {
+    color: $text-primary;
+    @include fontSize-lineHeight(18, 24);
+    font-weight: 500;
+    margin-bottom: $spacing-sm;
+
+    @include mobile-only {
+      @include fontSize-lineHeight(16, 22);
+    }
+
+    @include tablet-up {
+      @include fontSize-lineHeight(20, 28);
+    }
+  }
+
+  p {
+    color: $text-secondary;
+    @include fontSize-lineHeight(14, 20);
+    margin-bottom: $spacing-lg;
+
+    @include mobile-only {
+      @include fontSize-lineHeight(13, 18);
+      margin-bottom: $spacing-md;
+    }
+
+    @include tablet-up {
+      @include fontSize-lineHeight(16, 24);
+    }
+  }
+
+  button mat-icon {
+    margin-right: $spacing-sm;
+    @include fontSize-lineHeight(16, 16);
+
+    @include mobile-only {
+      margin-right: $spacing-xs;
+    }
+  }
+}
+
+// Paginator Styling
+.table-paginator {
+  background: $background-light;
+  border-top: 1px solid $divider-color;
+
+  ::ng-deep .mat-mdc-paginator-container {
+    padding: $spacing-md $spacing-lg;
+    min-height: 56px;
+
+    @include mobile-only {
+      padding: $spacing-sm $spacing-md;
+      min-height: 48px;
+    }
+  }
+
+  ::ng-deep .mat-mdc-paginator-page-size {
+    @include mobile-only {
+      display: none;
+    }
+  }
+
+  ::ng-deep .mat-mdc-paginator-range-label {
+    @include mobile-only {
+      @include fontSize-lineHeight(12, 16);
+    }
+  }
+}
+
+// Hide columns on mobile
+@include mobile-only {
+  .users-table {
+    .email-cell,
+    th:nth-child(3) {
+      display: none;
+    }
+  }
+}
+
+// Responsive table adjustments
+@include tablet-only {
+  .users-table {
+    .actions-container {
+      gap: 2px;
+
+      button {
+        width: 30px;
+        height: 30px;
+
+        mat-icon {
+          @include fontSize-lineHeight(15, 15);
+        }
+      }
+    }
+  }
+}

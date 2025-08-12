@@ -1,0 +1,173 @@
+<div class="add-edit-user-dialog">
+  <div class="dialog-header">
+    <mat-icon [class.add-icon]="isAddMode" [class.edit-icon]="!isAddMode">
+      {{ isAddMode ? "person_add" : "edit" }}
+    </mat-icon>
+    <h2 mat-dialog-title>{{ dialogTitle }}</h2>
+  </div>
+  <form [formGroup]="userForm" class="user-form">
+    <mat-dialog-content>
+      <!-- Email -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldConfigs["email"].label }}</mat-label>
+        <input
+          matInput
+          type="email"
+          formControlName="email"
+          [placeholder]="fieldConfigs['email'].placeholder"
+          autocomplete="email"
+        />
+        <mat-icon matSuffix>email</mat-icon>
+
+        @if (formControl['email']?.invalid && formControl['email']?.touched) {
+        <mat-error>
+          @if (formControl['email']?.hasError('required')) {
+          {{ errorMessages.REQUIRED }}
+          } @else if (formControl['email']?.hasError('email')) {
+          {{ errorMessages.INVALID_EMAIL }}
+          } @else if (formControl['email']?.hasError('maxlength')) {
+          {{ errorMessages.EMAIL_MAX_LENGTH }}
+          }
+        </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- First Name -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldConfigs["firstName"].label }}</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="firstName"
+          [placeholder]="fieldConfigs['firstName'].placeholder"
+          [maxlength]="fieldConfigs['firstName'].maxLength!"
+          autocomplete="given-name"
+        />
+        <mat-icon matSuffix>person</mat-icon>
+        <mat-hint align="end">
+          {{ userForm.get("firstName")?.value?.length || 0 }}/{{
+            fieldConfigs["firstName"].maxLength
+          }}
+        </mat-hint>
+
+        @if (formControl['firstName']?.invalid) {
+        <mat-error>
+          @if (formControl['firstName']?.hasError('required')) {
+          {{ errorMessages.REQUIRED }}
+          } @else if (formControl['firstName']?.hasError('pattern')) {
+          {{ errorMessages.FIRST_NAME_VALIDATION }}
+          } @else if (formControl['firstName']?.hasError('minlength')) {
+          {{ errorMessages.FIRST_NAME_MIN_LENGTH }}
+          } @else if (formControl['firstName']?.hasError('maxlength')) {
+          {{ errorMessages.FIRST_NAME_MAX_LENGTH }}
+          }
+        </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Last Name -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldConfigs["lastName"].label }}</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="lastName"
+          [placeholder]="fieldConfigs['lastName'].placeholder"
+          [maxlength]="fieldConfigs['lastName'].maxLength!"
+          autocomplete="family-name"
+        />
+        <mat-icon matSuffix>person_outline</mat-icon>
+        <mat-hint align="end">
+          {{ userForm.get("lastName")?.value?.length || 0 }}/{{
+            fieldConfigs["lastName"].maxLength
+          }}
+        </mat-hint>
+
+        @if (formControl['lastName']?.invalid) {
+        <mat-error>
+          @if (formControl['lastName']?.hasError('required')) {
+          {{ errorMessages.REQUIRED }}
+          } @else if (formControl['lastName']?.hasError('pattern')) {
+          {{ errorMessages.LAST_NAME_VALIDATION }}
+          } @else if (formControl['lastName']?.hasError('minlength')) {
+          {{ errorMessages.LAST_NAME_MIN_LENGTH }}
+          } @else if (formControl['lastName']?.hasError('maxlength')) {
+          {{ errorMessages.LAST_NAME_MAX_LENGTH }}
+          }
+        </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Role -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ fieldConfigs["role"].label }}</mat-label>
+
+        <mat-select
+          formControlName="role"
+          [placeholder]="fieldConfigs['role'].placeholder"
+        >
+          <mat-select-trigger>
+            <mat-icon class="role-icon icon-margin-right">
+              {{ getRoleIcon(formControl["role"]?.value) }}
+            </mat-icon>
+            {{ getRoleDisplayName(formControl["role"]?.value) }}
+          </mat-select-trigger>
+          @for (option of availableRoles; track option.value) {
+          <mat-option
+            [value]="option.value"
+            [disabled]="option.disabled"
+            [matTooltip]="option.description"
+            matTooltipPosition="right"
+          >
+            <div class="role-option">
+              <mat-icon class="role-icon icon-margin-right-lg">
+                {{ getRoleIcon(option.value) }}
+              </mat-icon>
+              <span class="role-description">{{ option.description }}</span>
+            </div>
+          </mat-option>
+          }
+        </mat-select>
+
+        <mat-icon matSuffix>admin_panel_settings</mat-icon>
+
+        @if (formControl['role']?.invalid) {
+        <mat-error> {{ errorMessages.REQUIRED }} </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Role Info -->
+      @if (formControl['role']?.value) {
+      <div class="role-info-card">
+        <mat-icon class="info-icon">info</mat-icon>
+        <div class="info-content">
+          <h4>
+            {{ getRoleDisplayName(formControl["role"]?.value) }} Permissions
+          </h4>
+          <p>{{ getRolePermissionDescription(formControl["role"]?.value) }}</p>
+        </div>
+      </div>
+      }
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end" class="dialog-actions">
+      <button
+        mat-button
+        type="button"
+        (click)="onCancel()"
+        [disabled]="isLoading"
+      >
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        [color]="isAddMode ? 'primary' : 'accent'"
+        type="submit"
+        (click)="onSubmit()"
+      >
+        <mat-icon>{{ isAddMode ? "add" : "save" }}</mat-icon>
+        <span>{{ isAddMode ? "Create User" : "Update User" }}</span>
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

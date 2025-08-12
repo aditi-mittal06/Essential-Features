@@ -1,0 +1,164 @@
+@mixin font-size($sizeValue: 16) {
+  font-size: $sizeValue + px; //fallback for old browsers
+  font-size: (0.0625 * $sizeValue) + rem;
+}
+
+@mixin line-height($heightValue: 28) {
+  line-height: $heightValue + px; //fallback for old browsers
+  line-height: (0.0625 * $heightValue) + rem;
+}
+
+@mixin fontSize-lineHeight($sizeValue: 18, $heightValue: 24) {
+  @include font-size($sizeValue);
+  @include line-height($heightValue);
+}
+
+@mixin box-shadow(
+  $x-axis: 0,
+  $y-axis: 1px,
+  $blur: 2px,
+  $color: rgba(0, 0, 0, 0.5),
+  $inset: false
+) {
+  @if $inset {
+    -webkit-box-shadow: inset $x-axis $y-axis $blur $color;
+    -moz-box-shadow: inset $x-axis $y-axis $blur $color;
+    box-shadow: inset $x-axis $y-axis $blur $color;
+  } @else {
+    -webkit-box-shadow: $x-axis $y-axis $blur $color;
+    -moz-box-shadow: $x-axis $y-axis $blur $color;
+    box-shadow: $x-axis $y-axis $blur $color;
+  }
+}
+
+@mixin border-radius($radius) {
+  border-radius: $radius + px;
+  -webkit-border-radius: $radius + px;
+  -moz-border-radius: $radius + px;
+}
+
+// Animation mixins
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+@mixin transform($transforms) {
+  -webkit-transform: $transforms;
+  -moz-transform: $transforms;
+  -ms-transform: $transforms;
+  transform: $transforms;
+}
+
+// Form mixins
+@mixin input-focus($color: $input-focus) {
+  border-color: $color;
+  box-shadow: 0 0 0 2px rgba($color, 0.2);
+  outline: none;
+}
+
+@mixin button-hover($background-color, $darken-amount: 10%) {
+  &:hover {
+    background-color: darken($background-color, $darken-amount);
+  }
+}
+
+// Text mixins
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Responsive breakpoint mixins
+@mixin mobile-only {
+  @media (max-width: #{$breakpoint-xs - 1px}) {
+    @content;
+  }
+}
+
+@mixin mobile-up {
+  @media (min-width: $breakpoint-xs) {
+    @content;
+  }
+}
+
+@mixin tablet-only {
+  @media (min-width: $breakpoint-xs) and (max-width: #{$breakpoint-sm - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @media (min-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin desktop-only {
+  @media (min-width: $breakpoint-sm) and (max-width: #{$breakpoint-md - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin large-up {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin xl-up {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Container mixin
+@mixin container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+
+  @include tablet-up {
+    max-width: $container-md;
+    padding: 0 $spacing-lg;
+  }
+
+  @include desktop-up {
+    max-width: $container-lg;
+  }
+
+  @include large-up {
+    max-width: $container-xl;
+  }
+}
