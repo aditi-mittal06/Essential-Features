@@ -9,7 +9,6 @@
   padding: $spacing-lg;
   background: $background-card;
   @include border-radius(8);
-  @include box-shadow(0, 4px, 20px, $shadow-light);
   @include transition();
 
   @include mobile-only {
@@ -71,8 +70,8 @@
       margin: $spacing-sm 0;
     }
 
-    a {
-      color: $primary-btn-background;
+    .forgot-password-link {
+      color: #2196f3;
       text-decoration: none;
       @include fontSize-lineHeight(14, 20);
       @include transition(color);
@@ -83,19 +82,21 @@
       }
 
       &:hover {
-        color: $primary-btn-background-hover;
+        color: #1976d2;
       }
     }
   }
 
-  .btn {
+  .login-btn {
     width: 100%;
     margin-top: $spacing-md;
     @include transition();
+    @include fontSize-lineHeight(14, 20);
 
     @include mobile-only {
       margin-top: $spacing-sm;
       min-height: 48px;
+      @include fontSize-lineHeight(14, 20);
     }
   }
 }

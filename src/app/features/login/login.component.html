@@ -46,10 +46,10 @@
     </mat-form-field>
     <div class="form__options">
       <div></div>
-      <a (click)="onForgotPasswordClick()">Forgot Password?</a>
+      <a (click)="onForgotPasswordClick()" class="forgot-password-link">Forgot Password?</a>
     </div>
 
-    <button type="submit" class="btn btn-primary" (click)="onLogInClick()">
+    <button type="submit" mat-flat-button color="primary" class="login-btn" (click)="onLogInClick()">
       Login
     </button>
   </form>
