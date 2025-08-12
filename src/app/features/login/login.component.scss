@@ -1,417 +1,118 @@
 @import "../../styles/variables.scss";
 @import "../../styles/mixin.scss";
 
-// Main login container
-.login-container {
-  min-height: 100vh;
-  width: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  @include flex-center;
-  padding: $spacing-md;
-  position: relative;
-  overflow: hidden;
-
-  @include mobile-only {
-    padding: $spacing-sm;
-  }
-
-  @include tablet-up {
-    padding: $spacing-lg;
-  }
-
-  // Background decoration
-  &::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-    animation: float 6s ease-in-out infinite;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -30%;
-    left: -30%;
-    width: 150%;
-    height: 150%;
-    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
-    animation: float 8s ease-in-out infinite reverse;
-  }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(180deg); }
-}
-
-// Login wrapper
-.login-wrapper {
+.login-form {
+  @include flex-column;
   width: 100%;
   max-width: 400px;
-  position: relative;
-  z-index: 1;
+  margin: $spacing-lg auto;
+  padding: $spacing-lg;
+  background: $background-card;
+  @include border-radius(8);
+  @include transition();
 
   @include mobile-only {
-    max-width: 100%;
+    margin: $spacing-md;
+    padding: $spacing-md;
+    max-width: none;
+    min-height: calc(100vh - #{$spacing-xl});
+    justify-content: center;
   }
 
   @include tablet-up {
-    max-width: 450px;
+    max-width: 500px;
+    margin: $spacing-xxl auto;
+    padding: $spacing-xl;
   }
 
   @include desktop-up {
-    max-width: 500px;
-  }
-}
-
-// Login form
-.login-form {
-  background: $background-card;
-  @include border-radius(16);
-  padding: $spacing-xl;
-  width: 100%;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-
-  @include mobile-only {
-    @include border-radius(12);
-    padding: $spacing-lg;
-  }
-
-  @include tablet-up {
-    padding: $spacing-xxl;
-  }
-}
-
-// Login header
-.login-header {
-  text-align: center;
-  margin-bottom: $spacing-xl;
-
-  @include mobile-only {
-    margin-bottom: $spacing-lg;
+    max-width: 600px;
   }
 
   h1 {
-    @include fontSize-lineHeight(28, 36);
+    @include fontSize-lineHeight(24, 32);
     color: $text-primary;
-    font-weight: 600;
-    margin: 0 0 $spacing-sm 0;
+    margin-bottom: $spacing-lg;
+    text-align: center;
 
     @include mobile-only {
-      @include fontSize-lineHeight(24, 32);
+      @include fontSize-lineHeight(20, 28);
+      margin-bottom: $spacing-md;
     }
 
     @include tablet-up {
-      @include fontSize-lineHeight(32, 40);
+      @include fontSize-lineHeight(30, 45);
     }
-
-    @include desktop-up {
-      @include fontSize-lineHeight(36, 44);
-    }
-  }
-
-  .login-subtitle {
-    @include fontSize-lineHeight(14, 20);
-    color: $text-secondary;
-    margin: 0;
-
-    @include mobile-only {
-      @include fontSize-lineHeight(13, 18);
-    }
-
-    @include tablet-up {
-      @include fontSize-lineHeight(16, 24);
-    }
-  }
-}
-
-// Form fields container
-.form-fields {
-  margin-bottom: $spacing-lg;
-
-  @include mobile-only {
-    margin-bottom: $spacing-md;
   }
 
   .mat-mdc-form-field {
     margin-bottom: $spacing-md;
+    width: 100%;
 
     @include mobile-only {
       margin-bottom: $spacing-sm;
     }
 
     @include tablet-up {
-      margin-bottom: $spacing-lg;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
+      margin-bottom: 20px;
     }
   }
-}
 
-.full-width {
-  width: 100%;
-}
-
-// Form options
-.form-options {
-  @include flex-between;
-  align-items: center;
-  margin-bottom: $spacing-xl;
-  gap: $spacing-sm;
-
-  @include mobile-only {
-    flex-direction: column;
-    align-items: stretch;
-    gap: $spacing-md;
-    margin-bottom: $spacing-lg;
-  }
-
-  @include tablet-only {
-    flex-wrap: wrap;
+  .form__options {
+    @include flex-between;
+    margin: $spacing-md 0;
     gap: $spacing-sm;
-  }
 
-  .remember-me {
     @include mobile-only {
-      align-self: flex-start;
+      flex-direction: column;
+      align-items: stretch;
+      gap: $spacing-xs;
+      margin: $spacing-sm 0;
     }
 
-    ::ng-deep .mat-checkbox-label {
+    .forgot-password-link {
+      color: #2196f3;
+      text-decoration: none;
       @include fontSize-lineHeight(14, 20);
-      color: $text-secondary;
-
-      @include mobile-only {
-        @include fontSize-lineHeight(13, 18);
-      }
-    }
-  }
-
-  .forgot-password-link {
-    color: #2196f3;
-    text-decoration: none;
-    @include fontSize-lineHeight(14, 20);
-    @include transition(color);
-    cursor: pointer;
-    font-weight: 500;
-
-    @include mobile-only {
-      @include fontSize-lineHeight(13, 18);
-      text-align: center;
-      align-self: center;
-    }
-
-    &:hover {
-      color: #1976d2;
-      text-decoration: underline;
-    }
-
-    &:focus {
-      outline: 2px solid #2196f3;
-      outline-offset: 2px;
-      @include border-radius(4);
-    }
-  }
-}
-
-// Form actions
-.form-actions {
-  margin-top: $spacing-lg;
-
-  @include mobile-only {
-    margin-top: $spacing-md;
-  }
-}
-
-// Login button
-.login-btn {
-  width: 100%;
-  height: 48px;
-  @include fontSize-lineHeight(14, 20);
-  font-weight: 600;
-  @include border-radius(8);
-  @include transition();
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-
-  @include mobile-only {
-    height: 52px;
-    @include fontSize-lineHeight(14, 20);
-  }
-
-  @include tablet-up {
-    height: 56px;
-    @include fontSize-lineHeight(16, 24);
-  }
-
-  mat-icon {
-    margin-right: $spacing-sm;
-    @include fontSize-lineHeight(18, 18);
-
-    @include mobile-only {
-      margin-right: $spacing-xs;
-      @include fontSize-lineHeight(16, 16);
-    }
-  }
-
-  &:hover:not(:disabled) {
-    @include transform(translateY(-2px));
-    @include box-shadow(0, 4px, 12px, rgba(33, 150, 243, 0.3));
-  }
-
-  &:active:not(:disabled) {
-    @include transform(translateY(0));
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-}
-
-// Enhanced form field styling
-::ng-deep {
-  .mat-mdc-form-field {
-    .mat-mdc-form-field-outline {
-      color: rgba($text-secondary, 0.3);
-    }
-
-    &.mat-focused .mat-mdc-form-field-outline-thick {
-      color: #2196f3;
-    }
-
-    &.mat-form-field-invalid .mat-mdc-form-field-outline-thick {
-      color: $error-color;
-    }
-
-    .mat-mdc-form-field-label {
-      color: $text-secondary;
-    }
-
-    &.mat-focused .mat-mdc-form-field-label {
-      color: #2196f3;
-    }
-
-    .mat-mdc-input-element {
-      color: $text-primary;
-      @include fontSize-lineHeight(16, 24);
-
-      @include mobile-only {
-        @include fontSize-lineHeight(14, 20);
-      }
-
-      &::placeholder {
-        color: rgba($text-secondary, 0.6);
-      }
-    }
-
-    mat-icon[matSuffix] {
-      color: $text-secondary;
       @include transition(color);
 
+      @include mobile-only {
+        text-align: center;
+        @include fontSize-lineHeight(13, 18);
+      }
+
       &:hover {
-        color: $text-primary;
+        color: #1976d2;
       }
     }
-  }
-
-  // Error message styling
-  mat-error {
-    @include fontSize-lineHeight(12, 16);
-    margin-top: $spacing-xs;
-
-    @include mobile-only {
-      @include fontSize-lineHeight(11, 14);
-    }
-
-    span {
-      display: flex;
-      align-items: center;
-      gap: $spacing-xs;
-
-      &::before {
-        content: "⚠";
-        color: $error-color;
-        @include fontSize-lineHeight(12, 12);
-      }
-    }
-  }
-
-  // Checkbox styling
-  .mat-mdc-checkbox {
-    .mat-mdc-checkbox-frame {
-      border-color: rgba($text-secondary, 0.5);
-    }
-
-    &.mat-mdc-checkbox-checked .mat-mdc-checkbox-background {
-      background-color: #2196f3;
-    }
-  }
-}
-
-// Loading state (if needed)
-.login-btn.loading {
-  position: relative;
-  color: transparent;
-
-  &::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    top: 50%;
-    left: 50%;
-    margin-left: -10px;
-    margin-top: -10px;
-    border: 2px solid transparent;
-    border-top-color: $color-white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-// Accessibility improvements
-@media (prefers-reduced-motion: reduce) {
-  .login-container::before,
-  .login-container::after {
-    animation: none;
   }
 
   .login-btn {
-    transition: none;
+    width: 100%;
+    margin-top: $spacing-md;
+    @include transition();
+    @include fontSize-lineHeight(14, 20);
+
+    @include mobile-only {
+      margin-top: $spacing-sm;
+      min-height: 48px;
+      @include fontSize-lineHeight(14, 20);
+    }
   }
 }
 
-// High contrast mode
-@media (prefers-contrast: high) {
-  .login-form {
-    border: 2px solid $text-primary;
+// Full screen mobile layout
+@include mobile-only {
+  :host {
+    display: block;
+    min-height: 100vh;
+    background: linear-gradient(135deg, $info-color 0%, $primary-btn-background-hover 100%);
+    padding: $spacing-md;
+    @include flex-center;
   }
 
-  .forgot-password-link {
-    text-decoration: underline;
-  }
-}
-
-// Print styles
-@media print {
-  .login-container {
-    background: $color-white;
-    min-height: auto;
-  }
-
-  .login-form {
-    border: 1px solid $text-primary;
+  mat-grid-list {
+    width: 100%;
+    height: 100%;
   }
 }
