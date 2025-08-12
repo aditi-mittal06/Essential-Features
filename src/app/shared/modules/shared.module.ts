@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [],
@@ -36,6 +37,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatButtonModule,
     MatSelectModule,
     MatSortModule,
+    MatCheckboxModule,
   ],
   exports: [
     MatGridListModule,
@@ -55,6 +57,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatButtonModule,
     MatSelectModule,
     MatSortModule,
+    MatCheckboxModule,
   ],
 })
 export class SharedModule {}
