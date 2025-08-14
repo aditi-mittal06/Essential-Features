@@ -26,8 +26,8 @@ mat-card {
 
 mat-card-header {
   padding: $spacing-lg $spacing-lg $spacing-md;
-  background: linear-gradient(135deg, $info-color 0%, #764ba2 100%);
-  color: $color-white;
+  background: $background-card;
+  color: $text-primary;
 
   @include mobile-only {
     padding: $spacing-md;
@@ -37,7 +37,7 @@ mat-card-header {
     @include fontSize-lineHeight(20, 28);
     font-weight: 600;
     margin: 0;
-    color: $color-white;
+    color: $text-primary;
 
     @include mobile-only {
       @include fontSize-lineHeight(18, 24);
@@ -49,17 +49,17 @@ mat-card-header {
   }
 
   mat-card-subtitle {
-    @include fontSize-lineHeight(13, 18);
-    color: rgba($color-white, 0.8);
+    @include fontSize-lineHeight(16, 24);
+    color: $text-secondary;
     margin-top: $spacing-sm;
 
     @include mobile-only {
-      @include fontSize-lineHeight(12, 16);
+      @include fontSize-lineHeight(14, 20);
       margin-top: $spacing-xs;
     }
 
     @include tablet-up {
-      @include fontSize-lineHeight(14, 20);
+      @include fontSize-lineHeight(16, 24);
     }
   }
 }
@@ -124,6 +124,7 @@ mat-card-content {
   @include border-radius(8);
   @include box-shadow(0, 2px, 8px, $shadow-medium);
   @include transition();
+  @include fontSize-lineHeight(14, 20);
 
   @include mobile-only {
     height: 40px;
@@ -137,11 +138,6 @@ mat-card-content {
     @include mobile-only {
       margin-right: $spacing-xs;
     }
-  }
-
-  &:hover {
-    @include transform(translateY(-1px));
-    @include box-shadow(0, 4px, 12px, $shadow-medium);
   }
 }
 
@@ -168,12 +164,12 @@ mat-card-content {
   }
 
   p {
-    color: $text-secondary;
+    color: $text-primary;
     @include fontSize-lineHeight(16, 24);
     margin-bottom: $spacing-lg;
 
     @include mobile-only {
-      @include fontSize-lineHeight(14, 20);
+      @include fontSize-lineHeight(16, 24);
       margin-bottom: $spacing-md;
     }
   }
@@ -199,6 +195,7 @@ mat-card-content {
   overflow-x: auto;
   overflow-y: visible;
   max-height: 70vh;
+  width: 100%;
 
   @include mobile-only {
     max-height: 60vh;
@@ -240,17 +237,17 @@ mat-card-content {
   }
 
   @include tablet-up {
-    min-width: 800px;
+    min-width: 100%;
   }
 
   .table-header-row {
-    background: linear-gradient(135deg, $info-color 0%, #764ba2 100%);
+    background: $background-light;
     position: sticky;
     top: 0;
     z-index: 10;
 
     .header-cell {
-      color: $color-white;
+      color: $text-primary;
       font-weight: 600;
       @include fontSize-lineHeight(12, 18);
       padding: $spacing-sm;
@@ -287,26 +284,13 @@ mat-card-content {
       }
 
       ::ng-deep .mat-sort-header-arrow {
-        color: $color-white;
+        color: $text-primary;
       }
     }
   }
 
   .table-data-row {
-    @include transition(background-color);
     border-bottom: 1px solid $divider-color;
-
-    &:hover {
-      background-color: $background-light;
-    }
-
-    &:nth-child(even) {
-      background-color: rgba($text-primary, 0.02);
-
-      &:hover {
-        background-color: rgba($text-primary, 0.06);
-      }
-    }
 
     .data-cell {
       padding: $spacing-sm;
@@ -327,45 +311,46 @@ mat-card-content {
 // Column Styling
 .first-name-cell,
 .last-name-cell {
-  font-weight: 500;
+  font-weight: bold;
   color: $text-primary;
-  @include fontSize-lineHeight(13, 18);
+  @include fontSize-lineHeight(16, 22);
 
   @include mobile-only {
-    @include fontSize-lineHeight(12, 16);
+    @include fontSize-lineHeight(16, 22);
   }
 
   @include tablet-up {
-    @include fontSize-lineHeight(14, 20);
+    @include fontSize-lineHeight(16, 22);
   }
 }
 
 .email-cell {
-  color: $text-secondary;
-  @include fontSize-lineHeight(12, 16);
+  color: $text-primary;
+  @include fontSize-lineHeight(16, 22);
   word-break: break-word;
 
   @include mobile-only {
-    @include fontSize-lineHeight(11, 14);
+    @include fontSize-lineHeight(16, 22);
     display: none; // Hide email on mobile to save space
   }
 
   @include tablet-up {
-    @include fontSize-lineHeight(13, 18);
+    @include fontSize-lineHeight(16, 22);
     display: table-cell;
   }
 }
 
 .role-cell {
   .role-text {
-    @include fontSize-lineHeight(12, 16);
-    font-weight: 600;
+    @include fontSize-lineHeight(16, 22);
+    font-weight: 400;
     padding: $spacing-xs $spacing-sm;
     @include border-radius(12);
     background: $background-light;
+    color: $text-primary;
 
     @include mobile-only {
-      @include fontSize-lineHeight(10, 14);
+      @include fontSize-lineHeight(16, 22);
       padding: 2px $spacing-xs;
     }
   }
@@ -382,12 +367,13 @@ mat-card-content {
     }
 
     .status-label {
-      @include fontSize-lineHeight(11, 14);
+      @include fontSize-lineHeight(16, 22);
       font-weight: 600;
       text-transform: uppercase;
+      color: $text-primary;
 
       @include mobile-only {
-        @include fontSize-lineHeight(9, 12);
+        @include fontSize-lineHeight(16, 22);
       }
 
       &.active {
@@ -430,11 +416,6 @@ mat-card-content {
         @include mobile-only {
           @include fontSize-lineHeight(14, 14);
         }
-      }
-
-      &:hover {
-        @include transform(scale(1.1));
-        @include box-shadow(0, 2px, 8px, $shadow-medium);
       }
     }
   }
@@ -479,12 +460,12 @@ mat-card-content {
   }
 
   p {
-    color: $text-secondary;
-    @include fontSize-lineHeight(14, 20);
+    color: $text-primary;
+    @include fontSize-lineHeight(16, 24);
     margin-bottom: $spacing-lg;
 
     @include mobile-only {
-      @include fontSize-lineHeight(13, 18);
+      @include fontSize-lineHeight(16, 24);
       margin-bottom: $spacing-md;
     }
 
@@ -519,14 +500,28 @@ mat-card-content {
   }
 
   ::ng-deep .mat-mdc-paginator-page-size {
+    @include fontSize-lineHeight(14, 20);
+
     @include mobile-only {
       display: none;
     }
   }
 
   ::ng-deep .mat-mdc-paginator-range-label {
+    @include fontSize-lineHeight(14, 20);
+    color: $text-primary;
+
     @include mobile-only {
-      @include fontSize-lineHeight(12, 16);
+      @include fontSize-lineHeight(14, 20);
+    }
+  }
+
+  ::ng-deep .mat-mdc-paginator-navigation-first,
+  ::ng-deep .mat-mdc-paginator-navigation-previous,
+  ::ng-deep .mat-mdc-paginator-navigation-next,
+  ::ng-deep .mat-mdc-paginator-navigation-last {
+    mat-icon {
+      @include fontSize-lineHeight(14, 14);
     }
   }
 }
@@ -557,4 +552,16 @@ mat-card-content {
       }
     }
   }
+}
+
+// Button styling
+button {
+  @include fontSize-lineHeight(14, 20);
+  color: $text-primary;
+}
+
+// Paragraph text styling
+p {
+  @include fontSize-lineHeight(16, 24);
+  color: $text-primary;
 }
