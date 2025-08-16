@@ -1,10 +1,5 @@
 <div class="add-edit-user-dialog">
-  <div class="dialog-header">
-    <mat-icon [class.add-icon]="isAddMode" [class.edit-icon]="!isAddMode">
-      {{ isAddMode ? "person_add" : "edit" }}
-    </mat-icon>
-    <h2 mat-dialog-title>{{ dialogTitle }}</h2>
-  </div>
+  <h2 mat-dialog-title>{{ dialogTitle }}</h2>
   <form [formGroup]="userForm" class="user-form">
     <mat-dialog-content>
       <!-- Email -->
@@ -136,23 +131,11 @@
         }
       </mat-form-field>
 
-      <!-- Role Info -->
-      @if (formControl['role']?.value) {
-      <div class="role-info-card">
-        <mat-icon class="info-icon">info</mat-icon>
-        <div class="info-content">
-          <h4>
-            {{ getRoleDisplayName(formControl["role"]?.value) }} Permissions
-          </h4>
-          <p>{{ getRolePermissionDescription(formControl["role"]?.value) }}</p>
-        </div>
-      </div>
-      }
     </mat-dialog-content>
 
     <mat-dialog-actions align="end" class="dialog-actions">
       <button
-        mat-button
+        mat-button="tonal"
         type="button"
         (click)="onCancel()"
         [disabled]="isLoading"
@@ -160,13 +143,12 @@
         Cancel
       </button>
       <button
-        mat-raised-button
+        mat-button="filled"
         [color]="isAddMode ? 'primary' : 'accent'"
         type="submit"
         (click)="onSubmit()"
       >
-        <mat-icon>{{ isAddMode ? "add" : "save" }}</mat-icon>
-        <span>{{ isAddMode ? "Create User" : "Update User" }}</span>
+        {{ isAddMode ? "Create User" : "Update User" }}
       </button>
     </mat-dialog-actions>
   </form>

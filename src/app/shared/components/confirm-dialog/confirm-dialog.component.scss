@@ -79,7 +79,7 @@
       @include fontSize-lineHeight(18, 24);
       font-weight: 600;
       margin-bottom: $spacing-sm;
-      color: $text-primary;
+      color: #000000;
 
       @include mobile-only {
         @include fontSize-lineHeight(16, 22);
@@ -93,7 +93,7 @@
 
     p {
       @include fontSize-lineHeight(14, 20);
-      color: $text-secondary;
+      color: #000000;
       margin: 0;
       max-width: 300px;
 
@@ -130,7 +130,6 @@
       height: 40px;
       font-weight: 500;
       @include fontSize-lineHeight(14, 20);
-      @include transition();
 
       @include mobile-only {
         width: 100%;

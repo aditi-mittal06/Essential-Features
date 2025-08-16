@@ -90,7 +90,6 @@
   .login-btn {
     width: 100%;
     margin-top: $spacing-md;
-    @include transition();
     @include fontSize-lineHeight(14, 20);
 
     @include mobile-only {
