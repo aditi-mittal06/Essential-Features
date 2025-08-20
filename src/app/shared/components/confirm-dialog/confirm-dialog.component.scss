@@ -7,7 +7,7 @@
   margin: 0 auto;
   background: $background-card;
   @include border-radius(8);
-  @include box-shadow(0, 4px, 20px, $shadow-light);
+  border: 1px solid $divider-color;
   padding: $spacing-lg;
   @include flex-column;
   @include transition();
@@ -50,40 +50,17 @@
   .confirmation-box {
     @include flex-column;
     @include flex-center;
-
-    &__circle {
-      width: 60px;
-      height: 60px;
-      @include border-radius(50);
-      background: rgba($error-color, 0.1);
-      @include flex-center;
-      margin-bottom: $spacing-md;
-
-      @include mobile-only {
-        width: 50px;
-        height: 50px;
-        margin-bottom: $spacing-sm;
-      }
-
-      i {
-        color: $error-color;
-        @include fontSize-lineHeight(24, 24);
-
-        @include mobile-only {
-          @include fontSize-lineHeight(20, 20);
-        }
-      }
-    }
+    padding: $spacing-md 0;
 
     h1 {
       @include fontSize-lineHeight(18, 24);
       font-weight: 600;
-      margin-bottom: $spacing-sm;
+      margin-bottom: $spacing-md;
       color: #000000;
 
       @include mobile-only {
         @include fontSize-lineHeight(16, 22);
-        margin-bottom: $spacing-xs;
+        margin-bottom: $spacing-sm;
       }
 
       @include tablet-up {
@@ -130,6 +107,8 @@
       height: 40px;
       font-weight: 500;
       @include fontSize-lineHeight(14, 20);
+      @include border-radius(8);
+      @include transition();
 
       @include mobile-only {
         width: 100%;
@@ -162,35 +141,5 @@
 @media (max-height: 500px) and (orientation: landscape) {
   .modal-wrap {
     padding: $spacing-sm;
-
-    .confirmation-box {
-      &__circle {
-        width: 40px;
-        height: 40px;
-        margin-bottom: $spacing-xs;
-
-        i {
-          @include fontSize-lineHeight(16, 16);
-        }
-      }
-
-      h1 {
-        @include fontSize-lineHeight(14, 20);
-        margin-bottom: $spacing-xs;
-      }
-
-      p {
-        @include fontSize-lineHeight(12, 16);
-      }
-    }
-
-    .confirmation-footer {
-      margin-top: $spacing-sm;
-
-      button {
-        height: 36px;
-        @include fontSize-lineHeight(12, 16);
-      }
-    }
   }
 }
