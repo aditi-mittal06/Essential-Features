@@ -28,10 +28,7 @@
   } @else {
   <!-- For delete record -->
   <form class="mat-form-formatting">
-    <div class="text-center confirmation-box mat-form-formatting">
-      <div class="confirmation-box__circle">
-        <i class="fas fa-times"></i>
-      </div>
+    <div class="text-center confirmation-box">
       <h1>Are you Sure?</h1>
       <p>
         Do you really want to delete the record {{ recordName ? recordName : ""
@@ -40,7 +37,7 @@
     </div>
     <div class="confirmation-footer">
       <button
-        mat-button="filled"
+        mat-flat-button
         color="primary"
         (click)="onConfirm()"
         type="button"
@@ -48,9 +45,9 @@
         Delete
       </button>
       <button
-        mat-dialog-close
-        mat-button="tonal"
-        color="secondary"
+        mat-flat-button
+        color="accent"
+        (click)="onCancel()"
         type="button"
       >
         Cancel

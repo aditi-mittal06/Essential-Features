@@ -184,3 +184,23 @@ body {
     background: $background-light;
   }
 }
+
+// Global button styling overrides
+.mat-mdc-button.mat-accent {
+  --mdc-text-button-label-text-color: white;
+  --mdc-filled-button-container-color: #9e9e9e;
+  --mdc-filled-button-label-text-color: white;
+
+  &:hover {
+    --mdc-filled-button-container-color: #757575;
+  }
+
+  &:not(:disabled) {
+    background-color: #9e9e9e;
+    color: white;
+
+    &:hover {
+      background-color: #757575;
+    }
+  }
+}

@@ -7,10 +7,8 @@
   margin: 0 auto;
   background: $background-card;
   @include border-radius(8);
-  border: 1px solid $divider-color;
   padding: $spacing-lg;
   @include flex-column;
-  @include transition();
 
   @include mobile-only {
     max-width: 95vw;
@@ -108,7 +106,6 @@
       font-weight: 500;
       @include fontSize-lineHeight(14, 20);
       @include border-radius(8);
-      @include transition();
 
       @include mobile-only {
         width: 100%;
@@ -119,6 +116,16 @@
       @include tablet-up {
         height: 44px;
         @include fontSize-lineHeight(15, 22);
+      }
+
+      // Cancel button styling - grey instead of blue
+      &[color="accent"] {
+        background-color: #9e9e9e !important;
+        color: white !important;
+
+        &:hover {
+          background-color: #757575 !important;
+        }
       }
     }
   }

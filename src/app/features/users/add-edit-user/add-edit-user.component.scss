@@ -203,6 +203,16 @@ mat-form-field {
       height: 44px;
       @include fontSize-lineHeight(14, 20);
     }
+
+    // Cancel button styling - grey instead of blue
+    &[color="accent"] {
+      background-color: #9e9e9e !important;
+      color: white !important;
+
+      &:hover {
+        background-color: #757575 !important;
+      }
+    }
   }
 }
 
