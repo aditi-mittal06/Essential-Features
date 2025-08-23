@@ -43,28 +43,28 @@ h2[mat-dialog-title] {
 
   @include mobile-only {
     @include fontSize-lineHeight(16, 22);
-    margin-bottom: $spacing-md;
+    margin-bottom: $spacing-sm;
   }
 
   @include tablet-up {
     @include fontSize-lineHeight(20, 28);
-    margin-bottom: $spacing-xl;
+    margin-bottom: $spacing-md;
   }
 }
 
 // Form Styling
 .user-form {
   @include flex-column;
-  gap: $spacing-md;
+  gap: $spacing-sm;
   padding: $spacing-sm 0;
 
   @include mobile-only {
-    gap: $spacing-sm;
+    gap: $spacing-xs;
     padding: $spacing-xs 0;
   }
 
   @include tablet-up {
-    gap: 20px;
+    gap: $spacing-md;
     padding: $spacing-sm 0;
   }
 }
@@ -219,8 +219,10 @@ mat-form-field {
 // Error States
 mat-error {
   @include fontSize-lineHeight(11, 14);
-  margin-top: $spacing-xs;
-  @include flex-center;
+  margin: $spacing-xs 0 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   gap: $spacing-xs;
   color: $input-error;
 
@@ -305,6 +307,20 @@ mat-form-field.mat-form-field-disabled {
       }
     }
   }
+}
+
+// Role dropdown text color
+::ng-deep .mat-mdc-select-value-text {
+  color: #999 !important;
+}
+
+::ng-deep .mat-mdc-select-trigger {
+  color: #999 !important;
+}
+
+// Role option text styling
+.role-description {
+  color: #999 !important;
 }
 
 // Tooltip Styling
